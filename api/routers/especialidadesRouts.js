@@ -1,0 +1,5 @@
+const express = require("express");
+const router = express.Router();
+const especialidadesControll = require("../controllers/especialidadControll.js")
+router.get("/",especialidadesControll.cargar);
+module.exports = router;

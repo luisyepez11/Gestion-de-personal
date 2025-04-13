@@ -41,20 +41,54 @@ class empleados{
             res.status(500).send(err.mesagge);
         }
     }
-    agregar(req,res){
-        try{
-            const {nombre, apellido, cedula, fecha_nacimiento,fecha_contratacion,direccion,email,telefon,rol_id,cargo,departamento_id,sueldo}=req.body;
-            db.query(`INSERT INTO empleados (nombre, apellido, cedula, fecha_nacimiento,fecha_contratacion,direccion,email,telefon,rol_id,cargo,departamento_id,sueldo) VALUES (?, ?, ?, ?,?,?,?,?,?,?,?,?)`,[nombre, apellido, cedula, fecha_nacimiento,fecha_contratacion,direccion,email,telefon,rol_id,cargo,departamento_id,sueldo],(err,rows)=>{
-                if(err){
-                    res.status(400).send(err)
-                }
-                res.status(201).json({id : rows.insertId})
+    agregar(req, res) {
+        const {nombre, apellido, cedula, fecha_nacimiento, fecha_contratacion, direccion, email, telefono, rol_id, cargo, departamento_id, sueldo} = req.body;
+    
+        // Validación básica de campos requeridos
+        if (!nombre || !cedula) {
+            return res.status(400).json({ 
+                success: false,
+                error: "Nombre y cédula son campos obligatorios" 
             });
-
-        }catch(err){
-            res.status(500).send(err.mesagge);
         }
-    };
+    
+        db.query(
+            `INSERT INTO empleados 
+            (nombre, apellido, cedula, fecha_nacimiento, fecha_contratacion, direccion, email, telefono, rol_id, cargo, departamento_id, sueldo) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+            [nombre, apellido, cedula, fecha_nacimiento, fecha_contratacion, direccion, email, telefono, rol_id, cargo, departamento_id, sueldo],
+            (err, result) => {
+                if (err) {
+                    console.error('Error en la consulta SQL:', err);
+                    return res.status(500).json({
+                        success: false,
+                        error: "Error al insertar en la base de datos",
+                        details: err.message
+                    });
+                }
+                
+                // Verificación robusta del resultado
+                const insertedId = result?.insertId || 
+                                 (result[0] && result[0].insertId) || 
+                                 null;
+    
+                if (insertedId === null) {
+                    console.error('No se pudo obtener insertId:', result);
+                    return res.status(500).json({
+                        success: false,
+                        error: "No se pudo obtener el ID del nuevo registro",
+                        details: result
+                    });
+                }
+    
+                res.status(201).json({
+                    success: true,
+                    id: insertedId,
+                    message: "Empleado registrado exitosamente"
+                });
+            }
+        );
+    }
     consular_uno(req,res){
         const {id}=req.params
         try{
