@@ -126,3 +126,74 @@ body {
     cursor: pointer;
     float: right;
 }
+
+body {
+    font-family: 'Nunito Sans', sans-serif;
+    background-color: #eaf4f8;
+    color: #2f3e46;
+}
+
+.sidebar {
+    background-color: #1e3d59;
+    color: #fff;
+    padding: 20px;
+    min-height: 100vh;
+}
+
+.sidebar h2 {
+    font-size: 1.6rem;
+    margin-bottom: 1.5rem;
+    font-weight: bold;
+}
+
+.sidebar ul li {
+    margin-bottom: 1rem;
+}
+
+.sidebar ul li a {
+    color: #dbe9f4;
+    text-decoration: none;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    transition: color 0.2s;
+}
+
+.sidebar ul li a:hover {
+    color: #fff;
+    font-weight: 600;
+}
+
+.custom-card {
+    background-color: #ffffff;
+    border: 1px solid #cde3ec;
+    border-radius: 12px;
+}
+
+.formulario label {
+    font-weight: 600;
+    color: #3a3a3a;
+}
+
+.formulario input,
+.formulario select {
+    border-radius: 8px;
+    padding: 10px;
+    border: 1px solid #ced4da;
+    background-color: #f8f9fa;
+}
+
+.btn-hospital {
+    background-color: #2b7a78;
+    color: #fff;
+    padding: 10px 30px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 8px;
+    border: none;
+    transition: background-color 0.3s ease;
+}
+
+.btn-hospital:hover {
+    background-color: #205e5d;
+}

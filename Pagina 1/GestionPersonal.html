@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Personal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="gestion.css">
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="col-md-2 d-none d-md-block sidebar">
+                <h2>Otras</h2>
+                <ul>
+                    <li><a href="#"><i class="fas fa-users"></i> Gestión de Personal</a></li>
+                    <li><a href="../Pagina 2/Registro.html"><i class="fas fa-user-plus"></i> Registrar Empleado</a></li>
+                </ul>
+            </nav>
+            <main class="col-md-10 ml-sm-auto col-lg-10 px-md-5 pt-4">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h1 class="text-primary font-weight-bold">Personal Registrado</h1>
+                    <a href="../Pagina 2/Registro.html" class="btn btn-hospital"><i class="fas fa-user-plus mr-2"></i>Registrar Nuevo</a>
+                </div>
+                <div class="card shadow-sm p-3">
+                    <div class="table-responsive">
+                        <table class="table table-hover table-bordered text-center" id="tablaEmpleados">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>Cédula</th>
+                                    <th>Teléfono</th>
+                                    <th>Profesión</th>
+                                    <th>Modificar</th>
+                                    <th>Eliminar</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Aquí se cargará dinámicamente el contenido desde JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", async () => {
+            try {
+                const res = await fetch("http://localhost:6500/empleados");
+                const data = await res.json();
+                const tabla = document.querySelector("#tablaEmpleados tbody");
+                data.rows.forEach(emp => {
+                    const row = document.createElement("tr");
+                    row.innerHTML = `
+                        <td>${emp.nombre} ${emp.apellido}</td>
+                        <td>${emp.cedula}</td>
+                        <td>${emp.telefono}</td>
+                        <td>${emp.especialidad || 'Sin especificar'}</td>
+                        <td>
+                            <button class="btn btn-sm btn-warning text-white"><i class="fas fa-edit"></i></button>
+                        </td>
+                        <td>
+                            <button class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i></button>
+                        </td>
+                    `;
+                    tabla.appendChild(row);
+                });
+            } catch (error) {
+                console.error("Error al cargar empleados:", error);
+            }
+        });
+    </script>
+</body>
+</html>

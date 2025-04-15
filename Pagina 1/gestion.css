@@ -1,0 +1,92 @@
+
+body {
+    font-family: 'Nunito Sans', sans-serif;
+    background-color: #eaf4f8;
+    color: #2f3e46;
+}
+
+.sidebar {
+    background-color: #1e3d59;
+    color: #fff;
+    padding: 20px;
+    min-height: 100vh;
+}
+
+.sidebar h2 {
+    font-size: 1.6rem;
+    margin-bottom: 1.5rem;
+    font-weight: bold;
+}
+
+.sidebar ul li {
+    margin-bottom: 1rem;
+}
+
+.sidebar ul li a {
+    color: #dbe9f4;
+    text-decoration: none;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    transition: color 0.2s;
+}
+
+.sidebar ul li a:hover {
+    color: #fff;
+    font-weight: 600;
+}
+
+.card {
+    background-color: #ffffff;
+    border: 1px solid #cde3ec;
+    border-radius: 12px;
+}
+
+.table th {
+    background-color: #2b7a78;
+    color: #ffffff;
+    font-weight: 600;
+}
+
+.btn-hospital {
+    background-color: #2b7a78;
+    color: #fff;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 8px;
+    border: none;
+    transition: background-color 0.3s ease;
+}
+
+.btn-hospital:hover {
+    background-color: #205e5d;
+}
+
+.table td button {
+    border: none;
+    padding: 6px 10px;
+    border-radius: 6px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.table td button:hover {
+    transform: translateY(-1px);
+}
+
+.btn-warning {
+    background-color: #ffb347;
+}
+
+.btn-warning:hover {
+    background-color: #ffa726;
+}
+
+.btn-danger {
+    background-color: #e76f51;
+    color: white;
+}
+
+.btn-danger:hover {
+    background-color: #d1493b;
+}
