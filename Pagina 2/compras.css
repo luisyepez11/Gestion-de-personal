@@ -1,7 +1,7 @@
 body {
     font-family: 'Roboto', sans-serif;
     background-color: #f8f9fa;
-    color: #343a40;
+    color:#007bff;
 }
 .sidebar {
     background-color: #007bff;
@@ -59,13 +59,13 @@ body {
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     background-color: #fff;
-    color: #343a40;
+    color: #007bff;
 }
 .card h2, .card p {
     margin: 0;
 }
 .card p {
-    color: #6c757d;
+    color: #007bff;
 }
 .tabs button {
     background-color: #007bff;
@@ -86,7 +86,7 @@ body {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 .table th, .table td {
-    color: #343a40;
+    color:#007bff;
 }
 .table th {
     background-color: #007bff;
@@ -130,11 +130,11 @@ body {
 body {
     font-family: 'Nunito Sans', sans-serif;
     background-color: #eaf4f8;
-    color: #2f3e46;
+    color: #007bff;
 }
 
 .sidebar {
-    background-color: #1e3d59;
+    background-color: #007bff;
     color: #fff;
     padding: 20px;
     min-height: 100vh;
@@ -184,7 +184,7 @@ body {
 }
 
 .btn-hospital {
-    background-color: #2b7a78;
+    background-color: #007bff;
     color: #fff;
     padding: 10px 30px;
     font-size: 16px;
@@ -195,5 +195,5 @@ body {
 }
 
 .btn-hospital:hover {
-    background-color: #205e5d;
+    background-color: #007bff;
 }
