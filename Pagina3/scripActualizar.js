@@ -1,5 +1,10 @@
 // FUNCIONES DE VALIDACION Y MANIPULACION DE DOM
-
+// Cedula enviada
+const cedula_enviada = localStorage.getItem("cedula");
+console.log(cedula_enviada);
+let cedula_usuario=""
+let email_usuario=""
+let telefono_usuario=""
 // Función para mostrar mensajes de error (desaparece después de 5 segundos)
 function mostrarError(mensaje) {
     // Eliminar errores previos
@@ -242,6 +247,7 @@ async function cargar() {
             campos.textContent = element.nombre;
             especialidades.append(campos);
         });
+
     } catch(error) {
         console.error('Error al cargar especialidades:', error);
         mostrarError('Error al cargar las especialidades');
@@ -262,7 +268,50 @@ async function cargar() {
         console.error('Error al cargar roles:', error);
         mostrarError('Error al cargar los roles');
     }
-    
+    try{
+        // cambio
+        const response = await fetch(`http://localhost:6500/empleados/${cedula_enviada}`);
+        const data = await response.json();
+        const item = data[0]
+        const nombre=document.getElementById("nombre");
+        nombre.value=item.nombre
+        const apellido=document.getElementById("apellido");
+        apellido.value=item.apellido
+        const ci=document.getElementById("cedula");
+        ci.value=item.cedula
+
+        cedula_usuario=item.cedula.toString
+
+        const fechas_nacimiento=document.getElementById("fecha_nacimiento");
+        fechas_nacimiento.value=item.fecha_nacimiento.split('T')[0]
+        const fecha_contratacion=document.getElementById("fecha_ingreso");
+        fecha_contratacion.value=item.fecha_contratacion.split('T')[0]
+        const direccion=document.getElementById("direccion");
+        direccion.value=item.direccion
+        const email=document.getElementById("email");
+        email.value=item.email
+
+        email_usuario=item.email.toLowerCase();
+
+        const telefono=document.getElementById("telefono");
+        telefono.value=item.telefono
+
+        telefono_usuario=item.telefono
+
+        const rol= document.getElementById("rol");
+        rol.value=item.rol_id
+
+        const especialidad=document.getElementById("especialidad");
+        especialidad.value=item.departamento_id
+
+        const cargo=document.getElementById("cargo");
+        cargo.value=item.cargo
+        const sueldo=document.getElementById("sueldo");
+        sueldo.value=item.sueldo
+    }catch(error){
+                console.error('Error carga de  empleado:', error);
+                alert('Error cargar el  empleado: ' + error.message);
+    }
 }
 
 /***********************
@@ -391,9 +440,12 @@ document.getElementById("cargar").addEventListener("click", async () => {
     const data = await response.json();
     
     // Extraer todos los datos necesarios
-    const cedulas = data.rows.map(item => item.cedula.toString());
-    const emails = data.rows.map(item => item.email?.toLowerCase()); // Usamos ?. por si email es null
-    const telefonos = data.rows.map(item => item.telefono);
+    const cedulas = data.rows.filter(item => item.cedula?.toString() != cedula_enviada).map(item => item.cedula.toString());
+    const emails = data.rows.filter(item => item.email?.toLowerCase() != email_usuario).map(item => item.email?.toLowerCase()); // Usamos ?. por si email es null
+    const telefonos = data.rows.filter(item => item.telefono != telefono_usuario).map(item => item.telefono);
+    console.log(cedulas)
+    console.log(emails)
+    console.log(telefonos)
 
     // 1. Validar cédula única
     if (cedulas.includes(ci.toString())) {
@@ -429,24 +481,29 @@ document.getElementById("cargar").addEventListener("click", async () => {
             sueldo: sueldo
         };
 
-        const postResponse = await fetch('http://localhost:6500/empleados', {
-            method: 'POST',
+        const putResponse = await fetch('http://localhost:6500/empleados/1', {
+            method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(empleadoData)
         });
 
-        if (!postResponse.ok) {
-            throw new Error('Error al registrar empleado');
+        if (!putResponse.ok) {
+            throw new Error('Error al Actualizado empleado');
         }
 
-        const result = await postResponse.json();
-        mostrarExito('Empleado registrado con éxito');
+        const result = await putResponse.json();
+        mostrarExito('Empleado Actualizado con éxito');
         document.querySelector("form").reset();
 
     } catch (error) {
         console.error('Error:', error);
-        mostrarError('Error al registrar empleado: ' + error.message);
+        mostrarError('Error al Actualizar empleado: ' + error.message);
     }
+    document.getElementById("salir").showModal();
+    document.getElementById("Botonsalir").addEventListener("click",()=>{
+        window.location.href = '../Pagina 1/GestionPersonal.html';
+    })
+    
 });

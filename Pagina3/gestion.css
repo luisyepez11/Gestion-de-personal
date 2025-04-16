@@ -1,7 +1,7 @@
 body {
     font-family: 'Roboto', sans-serif;
     background-color: #f8f9fa;
-    color: #343a40;
+    color:#007bff;
 }
 .sidebar {
     background-color: #007bff;
@@ -59,13 +59,13 @@ body {
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     background-color: #fff;
-    color: #343a40;
+    color: #007bff;
 }
 .card h2, .card p {
     margin: 0;
 }
 .card p {
-    color: #6c757d;
+    color: #007bff;
 }
 .tabs button {
     background-color: #007bff;
@@ -86,7 +86,7 @@ body {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 .table th, .table td {
-    color: #343a40;
+    color:#007bff;
 }
 .table th {
     background-color: #007bff;
@@ -125,6 +125,73 @@ body {
     border-radius: 5px;
     cursor: pointer;
     float: right;
+}
+
+body {
+    font-family: 'Nunito Sans', sans-serif;
+    background-color: #eaf4f8;
+    color: #007bff;
+}
+
+.sidebar {
+    background-color: #007bff;
+    color: #fff;
+    padding: 20px;
+    min-height: 100vh;
+}
+
+.sidebar h2 {
+    font-size: 1.6rem;
+    margin-bottom: 1.5rem;
+    font-weight: bold;
+}
+
+.sidebar ul li {
+    margin-bottom: 1rem;
+}
+
+.sidebar ul li a {
+    color: #dbe9f4;
+    text-decoration: none;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    transition: color 0.2s;
+}
+
+.sidebar ul li a:hover {
+    color: #fff;
+    font-weight: 600;
+}
+
+.custom-card {
+    background-color: #ffffff;
+    border: 1px solid #cde3ec;
+    border-radius: 12px;
+}
+
+.formulario label {
+    font-weight: 600;
+    color: #3a3a3a;
+}
+
+.formulario input,
+.formulario select {
+    border-radius: 8px;
+    padding: 10px;
+    border: 1px solid #ced4da;
+    background-color: #f8f9fa;
+}
+
+.btn-hospital {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 30px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 8px;
+    border: none;
+    transition: background-color 0.3s ease;
 }
 
 .btn-hospital:hover {

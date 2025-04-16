@@ -6,19 +6,68 @@ class empleados{
     };
     eliminar(req,res){
         const {id} =req.params
-        db.query('DELETE FROM empleados WHERE empleado_id = ? ; ',[id],(err,raws)=>{
-            if (err){
-                res.status(400).send(err)
+        db.query('DELETE FROM empleados WHERE empleado_id = ?', [id], (deleteErr, deleteResult) => {
+            if (deleteErr) {
+                return db.rollback(() => {
+                    res.status(400).json({ error: 'Error al eliminar empleado', details: deleteErr });
+                });
             }
-            res.status(200).json({raws})
-        })
-        db.query('UPDATE empleados SET empleado_id = empleado_id - 1 WHERE empleado_id > ?', [id]);
+        });
+
+        db.query('UPDATE empleados SET empleado_id = empleado_id - 1 WHERE empleado_id > ?', [id], (updateErr, updateResult) => {
+            if (updateErr) {
+                return db.rollback(() => {
+                    res.status(400).json({ error: 'Error al actualizar IDs', details: updateErr });
+                });
+            }
+        });
+
+        db.query('ALTER TABLE empleados AUTO_INCREMENT = AUTO_INCREMENT - 1', (alterErr, alterResult) => {
+            if (alterErr) {
+                return db.rollback(() => {
+                    res.status(400).json({ error: 'Error al ajustar auto_increment', details: alterErr });
+                });
+            }
+    });
+        
     };
     actualizar(req,res){
-        const {nombre, apellido, cedula, fecha_nacimiento,fecha_contratacion,direccion,email,telefon,rol_id,cargo,departamento_id,sueldo,id}=req.body;
-        db.query(`UPDATE empleados SET nombre = ?,apellido = ?,cedula = ?,fecha_nacimiento = ?,fecha_contratacion = ?,direccion = ?,email = ?,telefon = ?,rol_id = ?,cargo = ?,departamento_id = ?,sueldo = ? WHERE empleado_id = ?`,[nombre, apellido, cedula, fecha_nacimiento,fecha_contratacion,direccion,email,telefon,rol_id,cargo,departamento_id,sueldo,id])
-    };
-    
+        try {
+            const { nombre, apellido, cedula, fecha_nacimiento, fecha_contratacion, direccion, email, telefono, rol_id, cargo, departamento_id, sueldo} = req.body;
+            db.query(
+                `UPDATE empleados SET 
+                    nombre = ?,
+                    apellido = ?,
+                    cedula = ?,
+                    fecha_nacimiento = ?,
+                    fecha_contratacion = ?,
+                    direccion = ?,
+                    email = ?,
+                    telefono = ?,
+                    rol_id = ?,
+                    cargo = ?,
+                    departamento_id = ?,
+                    sueldo = ? 
+                WHERE cedula = ?`,
+                [nombre, apellido, cedula, fecha_nacimiento, fecha_contratacion, direccion, email, telefono, rol_id, cargo, departamento_id, sueldo, cedula],
+                (error, results) => {
+                    if (error) {
+                        console.error('Error al actualizar empleado:', error);
+                        return res.status(500).json({ error: 'Error interno del servidor' });
+                    }
+                    
+                    if (results.affectedRows === 0) {
+                        return res.status(404).json({ error: 'Empleado no encontrado' });
+                    }
+                    
+                    res.status(200).json({ message: 'Empleado actualizado correctamente' });
+                }
+            );
+        } catch (error) {
+            console.error('Error inesperado:', error);
+            res.status(500).json({ error: 'Error interno del servidor' });
+        }
+    }
     consular(req,res){
         try{
             db.query(`SELECT 
@@ -104,11 +153,11 @@ class empleados{
                 LEFT JOIN 
                     departamentos d ON e.departamento_id = d.departamento_id
                 WHERE 
-                    e.empleado_id = ?`,[id],(err,rows)=>{
+                    e.cedula = ?`,[id],(err,rows)=>{
                 if(err){
                     res.status(400).send(err)
                 }
-                res.status(200).json({rows})
+                res.status(200).json(rows)
             });
 
         }catch(err){

@@ -13,23 +13,51 @@
     <div class="container-fluid">
         <div class="row">
             <nav class="col-md-2 d-none d-md-block sidebar">
-                <h2>Otras</h2>
+                <h2>OTRASS</h2>
                 <ul>
+                    <li><a href="#"><i class="fas fa-home"></i> Inicio</a></li>
                     <li><a href="#"><i class="fas fa-users"></i> Gestión de Personal</a></li>
-                    <li><a href="../Pagina 2/Registro.html"><i class="fas fa-user-plus"></i> Registrar Empleado</a></li>
+                    <li><a href="#"><i class="fas fa-vial"></i> Laboratorio</a></li>
+                    <li><a href="#"><i class="fas fa-boxes"></i> Inventario</a></li>
+                    <li><a href="#" class="active"><i class="fas fa-shopping-cart"></i> Compras</a></li>
+                    <li><a href="#"><i class="fas fa-tooth"></i> Consultas Odontológicas</a></li>
+                    <li><a href="#"><i class="fas fa-stethoscope"></i> Consultas Médicas</a></li>
+                    <li><a href="#"><i class="fas fa-file-invoice-dollar"></i> Administración</a></li>
+                    <li><a href="#"><i class="fas fa-procedures"></i> Hospitalización</a></li>
+                    <li><a href="#"><i class="fas fa-tools"></i> Mantenimiento</a></li>
+                    <li><a href="#"><i class="fas fa-calendar-check"></i> Gestión de Citas</a></li>
                 </ul>
+                <div class="bottom-links">
+                    <ul>
+                        <li><a href="#"><i class="fas fa-question-circle"></i> Help</a></li>
+                    </ul>
+                </div>
             </nav>
+            
             <main class="col-md-10 ml-sm-auto col-lg-10 px-md-5 pt-4">
+                <h1>Gestión de Personal</h1>
+                <dialog id="Eliminar">
+                    <p>¿Está seguro de que desea eliminar?</p>
+                    <button id="aceptar" class="btn btn-hospital">Confirmar</button><button id="cancelar" class="btn btn-hospital">Cancelar</button>
+                </dialog>
                 <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h1 class="text-primary font-weight-bold">Personal Registrado</h1>
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" placeholder="Buscar Empleado...">
+                        <div class="input-group-append">
+                            
+                            <span class="input-group-text"><i class="fas fa-search"></i></span>
+                        </div>
+                    </div>
                     <a href="../Pagina 2/Registro.html" class="btn btn-hospital"><i class="fas fa-user-plus mr-2"></i>Registrar Nuevo</a>
                 </div>
                 <div class="card shadow-sm p-3">
                     <div class="table-responsive">
-                        <table class="table table-hover table-bordered text-center" id="tablaEmpleados">
-                            <thead class="thead-light">
+                        <h2>Personal Registrado</h2>
+                        <table class="table table-striped" id="tablaEmpleados">
+                            <thead >
                                 <tr>
                                     <th>Nombre</th>
+                                    <th>Apellido</th>
                                     <th>Cédula</th>
                                     <th>Teléfono</th>
                                     <th>Profesión</th>
@@ -54,19 +82,68 @@
                 const data = await res.json();
                 const tabla = document.querySelector("#tablaEmpleados tbody");
                 data.rows.forEach(emp => {
+                    console.log(emp)
                     const row = document.createElement("tr");
-                    row.innerHTML = `
-                        <td>${emp.nombre} ${emp.apellido}</td>
-                        <td>${emp.cedula}</td>
-                        <td>${emp.telefono}</td>
-                        <td>${emp.especialidad || 'Sin especificar'}</td>
-                        <td>
-                            <button class="btn btn-sm btn-warning text-white"><i class="fas fa-edit"></i></button>
-                        </td>
-                        <td>
-                            <button class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i></button>
-                        </td>
-                    `;
+                    const nombre=document.createElement("td");
+                    nombre.textContent=emp.nombre;
+                    const apellido=document.createElement("td");
+                    apellido.textContent=emp.apellido;
+                    const cedula=document.createElement("td");
+                    cedula.textContent=emp.cedula;
+                    const telefono=document.createElement("td");
+                    telefono.textContent=emp.telefono;
+                    const rol=document.createElement("td");
+                    rol.textContent=emp.nombre_rol;
+                    // 
+                    const Editar=document.createElement("td");
+                    const boton=document.createElement("button");
+                    boton.className="btn btn-sm btn-warning text-white"
+                    const i=document.createElement("i");
+                    i.className="fas fa-edit"
+                    boton.appendChild(i)
+                    boton.addEventListener("click",()=>{
+                    localStorage.setItem("cedula", emp.cedula);
+                    window.location.href = "../Pagina3/ActualizarRegistro.html";
+                    console.log("i funcione")
+                    })
+                    Editar.appendChild(boton)
+
+                    const Eliminar=document.createElement("td");
+                    const boton2=document.createElement("button");
+                    boton2.className="btn btn-sm btn-danger"
+                    const i2=document.createElement("i");
+                    i2.className="fas fa-trash-alt"
+                    boton2.appendChild(i2)
+                    boton2.addEventListener("click",()=>{
+                        document.getElementById("Eliminar").innerHTML = '';
+                        const p = document.createElement("p").textContent=`¿Está seguro de que desea eliminar a ${emp.nombre}?`
+                        const aceptar=document.createElement("button")
+                        aceptar.textContent="Confirmar"
+                        aceptar.id="ba"+emp.cedula
+                        aceptar.className="btn btn-hospital"
+                        aceptar.addEventListener("click",async()=>{
+                            const deleteResponse = await fetch(`http://localhost:6500/empleados/${emp.empleado_id}`, {
+                                method: 'DELETE',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                            });
+                            location.reload();
+                        })
+                        const cancelar=document.createElement("button")
+                        cancelar.id="bc"+cedula
+                        cancelar.className="btn btn-hospital"
+                        cancelar.textContent="Cancelar"
+                        cancelar.addEventListener("click",()=>{
+                            document.getElementById("Eliminar").close();;
+                        })
+                        const br =document.createElement("br")
+                        document.getElementById("Eliminar").append(p,br,aceptar,cancelar)
+                        document.getElementById("Eliminar").showModal();
+                    })
+                    
+                    Eliminar.appendChild(boton2)
+                    row.append(nombre,apellido,apellido,cedula,telefono,rol,Editar,Eliminar)
                     tabla.appendChild(row);
                 });
             } catch (error) {
