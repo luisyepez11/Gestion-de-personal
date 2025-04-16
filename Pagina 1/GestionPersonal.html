@@ -150,6 +150,29 @@
                 console.error("Error al cargar empleados:", error);
             }
         });
+        function Detectar_numero_caracter(input) {
+            // Elimina los espacios
+            const texto = input.trim();
+
+            // Verificar si contiene caracteres especiales 
+            if (/[^a-zA-Z0-9áéíóúÁÉÍÓÚñÑ\s]/.test(texto)) {
+                alert("No se permiten caracteres especiales.");
+                return "invalido";
+            }
+
+            // Si es un número 
+            if (/^\d+$/.test(texto)) {
+                return "cedula"; // aqui llama al metodo de busqueda por cedula
+            }
+            // Si es texto
+            else if (/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/.test(texto)) {
+                return "caracter"; // aqui llama al metodo de nombre y apellido
+            }
+            // si son numeros y letras
+            else {
+                return "Por favor ingrese solo letras o números"; 
+            }
+    }
     </script>
 </body>
 </html>
