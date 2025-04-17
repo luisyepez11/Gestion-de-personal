@@ -269,7 +269,8 @@ async function cargar() {
         const response  = await fetch(`http://localhost:6500/empleados/${empleado_id}`);
         console.log(`http://localhost:6500/empleados/${empleado_id}`)
         const data = await response.json();
-        const item = data[0]
+        const item = data.data
+        console.log(item)
         const nombre=document.getElementById("nombre");
         nombre.value=item.nombre
         const apellido=document.getElementById("apellido");
@@ -305,7 +306,12 @@ async function cargar() {
         sueldo.value=item.sueldo
 
         const cuenta=document.getElementById("cuenta");
-        cuenta.value=item.numero_cuenta_empleado
+        cuenta.value=item.numero_cuenta
+
+        const turno=document.getElementById("Turno");
+        turno.value=item.horario.turno
+
+        marcarDiasSeleccionados(item.horario.dia)
 
     }catch(error){
                 console.error('Error carga de  empleado:', error);
@@ -463,7 +469,8 @@ document.getElementById("cargar").addEventListener("click", async () => {
         mostrarError("Este número de teléfono ya está registrado");
         return;
     }
-
+    const dia= obtenerDiasSeleccionados()
+    const turno = document.getElementById("Turno").value
     const cuenta =document.getElementById("cuenta").value;
     // Preparar y enviar datos al servidor
     const empleadoData = {
@@ -480,7 +487,9 @@ document.getElementById("cargar").addEventListener("click", async () => {
         departamento_id: especialidad,
         cargo: cargo,
         sueldo: sueldo,
-        cuenta: cuenta  
+        cuenta: cuenta ,
+        turno:turno,
+        dia:dia 
     };
 
         const putResponse = await fetch(`http://localhost:6500/empleados/${empleado_id}`, {
@@ -571,3 +580,35 @@ document.getElementById("cancelar rol").addEventListener("click",()=>{
 document.getElementById("cancelar especialidad").addEventListener("click",()=>{
     document.getElementById("ventana especialidad").close();
 })
+function obtenerDiasSeleccionados() {
+    const checkboxes = document.querySelectorAll('.dia-checkbox');
+    
+    const diasSeleccionados = Array.from(checkboxes)
+      .filter(checkbox => checkbox.checked)
+      .map(checkbox => checkbox.value);
+    
+    return diasSeleccionados.join(', ');
+  }
+  
+  document.getElementById('botonGenerar').addEventListener('click', function() {
+    const diasString = obtenerDiasSeleccionados();
+    console.log(diasString);
+    alert(`Días seleccionados: ${diasString || 'Ningún día seleccionado'}`);
+  });
+
+function marcarDiasSeleccionados(diasString) {
+    document.querySelectorAll('.dia-checkbox').forEach(checkbox => {
+      checkbox.checked = false;
+    });
+  
+    if (!diasString || diasString.trim() === '') return;
+  
+    const dias = diasString.split(',').map(dia => dia.trim());
+
+    dias.forEach(dia => {
+      const checkbox = document.querySelector(`.dia-checkbox[value="${dia}"]`);
+      if (checkbox) {
+        checkbox.checked = true;
+      }
+    });
+  }

@@ -411,6 +411,8 @@ document.getElementById("cargar").addEventListener("click", async () => {
         mostrarError("Este número de teléfono ya está registrado");
         return;
     }
+    const turno = document.getElementById("Turno").value
+    const dias= obtenerDiasSeleccionados()
     const cuenta =document.getElementById("cuenta").value;
         // Preparar y enviar datos al servidor
         const empleadoData = {
@@ -426,7 +428,9 @@ document.getElementById("cargar").addEventListener("click", async () => {
             departamento_id: especialidad,
             cargo: cargo,
             sueldo: sueldo,
-            numero_cuenta:cuenta
+            numero_cuenta:cuenta,
+            turno:turno,
+            dia:dias
         };
 
         const postResponse = await fetch('http://localhost:6500/empleados', {
@@ -511,3 +515,35 @@ document.getElementById("cancelar rol").addEventListener("click",()=>{
 document.getElementById("cancelar especialidad").addEventListener("click",()=>{
     document.getElementById("ventana especialidad").close();
 })
+function obtenerDiasSeleccionados() {
+    const checkboxes = document.querySelectorAll('.dia-checkbox');
+    
+    const diasSeleccionados = Array.from(checkboxes)
+      .filter(checkbox => checkbox.checked)
+      .map(checkbox => checkbox.value);
+    
+    return diasSeleccionados.join(', ');
+  }
+  
+  document.getElementById('botonGenerar').addEventListener('click', function() {
+    const diasString = obtenerDiasSeleccionados();
+    console.log(diasString);
+    alert(`Días seleccionados: ${diasString || 'Ningún día seleccionado'}`);
+  });
+
+function marcarDiasSeleccionados(diasString) {
+    document.querySelectorAll('.dia-checkbox').forEach(checkbox => {
+      checkbox.checked = false;
+    });
+  
+    if (!diasString || diasString.trim() === '') return;
+  
+    const dias = diasString.split(',').map(dia => dia.trim());
+
+    dias.forEach(dia => {
+      const checkbox = document.querySelector(`.dia-checkbox[value="${dia}"]`);
+      if (checkbox) {
+        checkbox.checked = true;
+      }
+    });
+  }
