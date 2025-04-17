@@ -4,71 +4,89 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestión de Personal</title>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <link rel="stylesheet" href="gestion.css">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container-fluid">
         <div class="row">
             <nav class="col-md-2 d-none d-md-block sidebar">
-                <h2>OTRASS</h2>
-                <ul>
-                    <li><a href="#"><i class="fas fa-home"></i> Inicio</a></li>
-                    <li><a href="#"><i class="fas fa-users"></i> Gestión de Personal</a></li>
-                    <li><a href="#"><i class="fas fa-vial"></i> Laboratorio</a></li>
-                    <li><a href="#"><i class="fas fa-boxes"></i> Inventario</a></li>
-                    <li><a href="#" class="active"><i class="fas fa-shopping-cart"></i> Compras</a></li>
-                    <li><a href="#"><i class="fas fa-tooth"></i> Consultas Odontológicas</a></li>
-                    <li><a href="#"><i class="fas fa-stethoscope"></i> Consultas Médicas</a></li>
-                    <li><a href="#"><i class="fas fa-file-invoice-dollar"></i> Administración</a></li>
-                    <li><a href="#"><i class="fas fa-procedures"></i> Hospitalización</a></li>
-                    <li><a href="#"><i class="fas fa-tools"></i> Mantenimiento</a></li>
-                    <li><a href="#"><i class="fas fa-calendar-check"></i> Gestión de Citas</a></li>
-                </ul>
+                <h2>Navegador</h2>
+                <i class="fas fa-home"></i><a href="#"> Inicio</a><br>
+                <i class="fas fa-users"></i><a href="#"> Gestión de Personal</a><br>
+                <i class="fas fa-vial"></i><a href="#"> Laboratorio</a><br>
+                <i class="fas fa-boxes"></i><a href="#"> Inventario</a><br>
+                <i class="fas fa-shopping-cart"></i><a href="../../modulo_compras/views/index.html" class="active"> Compras</a><br>
+                <i class="fas fa-tooth"></i><a href="#"> Consultas Odontológicas</a><br>
+                <i class="fas fa-stethoscope"></i><a href="#"> Consultas Médicas</a><br>
+                <i class="fas fa-file-invoice-dollar"></i><a href="../../modulo_administracion/views/index.html"> Administración</a><br>
+                <i class="fas fa-procedures"></i><a href="#"> Hospitalización</a><br>
+                <i class="fas fa-tools"></i><a href="#"> Mantenimiento</a><br>
+                <i class="fas fa-calendar-check"></i><a href="#"> Gestión de Citas</a><br>
                 <div class="bottom-links">
-                    <ul>
-                        <li><a href="#"><i class="fas fa-question-circle"></i> Help</a></li>
-                    </ul>
+                    <i class="fas fa-question-circle"></i><a href="#"> Help</a>
                 </div>
             </nav>
             
-            <main class="col-md-10 ml-sm-auto col-lg-10 px-md-5 pt-4">
-                <h1>Gestión de Personal</h1>
-                <dialog id="Eliminar">
-                    <p>¿Está seguro de que desea eliminar?</p>
-                    <button id="aceptar" class="btn btn-hospital">Confirmar</button><button id="cancelar" class="btn btn-hospital">Cancelar</button>
-                </dialog>
-                <div class="d-flex justify-content-between align-items-center mb-4">
-                    <div class="input-group mb-3">
-                        <input type="text" class="form-control" placeholder="Buscar Empleado...">
-                        <div class="input-group-append">
-                            
-                            <span class="input-group-text"><i class="fas fa-search"></i></span>
+            <main role="main" class="col-md-10 ml-sm-auto col-lg-10 px-md-5 pt-4">
+                <div class="main-content">
+                    <h1>Gestión de Personal</h1>
+                    <hr>
+                    <dialog id="ventana rol">
+                        <label for="nombre rol">Nombre del Rol</label>
+                        <input type="text" class="form-control" id="nombre rol" name="nombre rol" required>
+                        <label for="descripcion rol">descripcion del Rol</label>
+                        <input type="text" class="form-control" id="descripcion rol" name="descripcion rol" required>
+                        <button id="confirmar rol" class="btn-hospital-small">Confirmar</button><button id="cancelar rol" class="btn-hospital-small">Cancelar</button>
+                    </dialog>
+                    <dialog id="ventana especialidad">
+                        <label for="nombre group">Nombre de especialidad</label>
+                        <input type="text" class="form-control" id="nombre especialidad" name="nombre especialidad" required>
+                        <label for="descripcion especialidad">descripcion de la especialidad</label>
+                        <input type="text" class="form-control" id="descripcion especialidad" name="descripcion especialidad" required>
+                        <button id="confirmar especialidad" class="btn-hospital-small">Confirmar</button><button id="cancelar especialidad" class="btn-hospital-small">Cancelar</button>
+                    </dialog>
+                    <dialog id="Eliminar">
+                        <p>¿Está seguro de que desea eliminar?</p>
+                        <button id="aceptar" class="btn btn-hospital">Confirmar</button><button id="cancelar" class="btn btn-hospital">Cancelar</button>
+                    </dialog>
+                    <!-- pago nomina -->
+                    <dialog id="ventana pago">
+                    </dialog>
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" placeholder="Buscar empleados...">
+                            <div class="input-group-append">
+                                <span class="input-group-text"><i class="fas fa-search"></i></span>
+                            </div>
                         </div>
                     </div>
-                    <a href="../Pagina 2/Registro.html" class="btn btn-hospital"><i class="fas fa-user-plus mr-2"></i>Registrar Nuevo</a>
-                </div>
-                <div class="card shadow-sm p-3">
-                    <div class="table-responsive">
-                        <h2>Personal Registrado</h2>
-                        <table class="table table-striped" id="tablaEmpleados">
-                            <thead >
-                                <tr>
-                                    <th>Nombre</th>
-                                    <th>Apellido</th>
-                                    <th>Cédula</th>
-                                    <th>Teléfono</th>
-                                    <th>Profesión</th>
-                                    <th>Modificar</th>
-                                    <th>Eliminar</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <!-- Aquí se cargará dinámicamente el contenido desde JS -->
-                            </tbody>
-                        </table>
+                    <div class='tabs mb-4'>
+                        <button class="btn-hospital" onclick="window.location.href='../Pagina 2/Registro.html'"><i class="fas fa-user-plus mr-2"></i> Registrar Empleado</button>
+                        <button class="btn-hospital" id="agregar rol">Registrar Rol</button>
+                        <button class="btn-hospital"  id="cargar especialidad">Registrar Departamento</button>
+                    </div>
+                    <div class="card shadow-sm p-3">
+                        <div class="table-responsive">
+                            <h2 id="tituloTabla">Personal Registrado</h2>
+                            <table class="table table-striped" id="tablaEmpleados">
+                                <thead >
+                                    <tr>
+                                        <th>Nombre</th>
+                                        <th>Apellido</th>
+                                        <th>Cédula</th>
+                                        <th>Teléfono</th>
+                                        <th>Rol</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Aquí se cargará dinámicamente el contenido desde JS -->
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </main>
@@ -82,7 +100,6 @@
                 const data = await res.json();
                 const tabla = document.querySelector("#tablaEmpleados tbody");
                 data.rows.forEach(emp => {
-                    console.log(emp)
                     const row = document.createElement("tr");
                     const nombre=document.createElement("td");
                     nombre.textContent=emp.nombre;
@@ -95,20 +112,19 @@
                     const rol=document.createElement("td");
                     rol.textContent=emp.nombre_rol;
                     // 
-                    const Editar=document.createElement("td");
+                    const Acciones=document.createElement("td");
                     const boton=document.createElement("button");
                     boton.className="btn btn-sm btn-warning text-white"
                     const i=document.createElement("i");
                     i.className="fas fa-edit"
                     boton.appendChild(i)
                     boton.addEventListener("click",()=>{
-                    localStorage.setItem("cedula", emp.cedula);
+                    localStorage.setItem("cedula", emp.empleado_id);
                     window.location.href = "../Pagina3/ActualizarRegistro.html";
                     console.log("i funcione")
                     })
-                    Editar.appendChild(boton)
+                    Acciones.appendChild(boton)
 
-                    const Eliminar=document.createElement("td");
                     const boton2=document.createElement("button");
                     boton2.className="btn btn-sm btn-danger"
                     const i2=document.createElement("i");
@@ -116,19 +132,36 @@
                     boton2.appendChild(i2)
                     boton2.addEventListener("click",()=>{
                         document.getElementById("Eliminar").innerHTML = '';
-                        const p = document.createElement("p").textContent=`¿Está seguro de que desea eliminar a ${emp.nombre}?`
+                        const p = document.createElement("label")
+                        p.textContent=`¿Está seguro de que desea eliminar a ${emp.nombre}?`
                         const aceptar=document.createElement("button")
                         aceptar.textContent="Confirmar"
                         aceptar.id="ba"+emp.cedula
                         aceptar.className="btn btn-hospital"
                         aceptar.addEventListener("click",async()=>{
+                            try {
                             const deleteResponse = await fetch(`http://localhost:6500/empleados/${emp.empleado_id}`, {
+                                method: 'DELETE'
+                            });
+                            
+                            if (!deleteResponse.ok) {
+                                const errorData = await deleteResponse.json();
+                                console.error('Error del servidor:', errorData);
+                                throw new Error(`Error ${deleteResponse.status}: ${errorData.error || 'Error desconocido'}`);
+                            }
+                            
+                            const result = await deleteResponse.json();
+                            console.log('Eliminación exitosa:', result);
+                            } catch (error) {
+                            console.error('Error al eliminar empleado:', error);
+                            }
+                            const deletenomina = await fetch(`http://localhost:6500/pago_empleado/${emp.empleado_id}`, {
                                 method: 'DELETE',
                                 headers: {
                                     'Content-Type': 'application/json',
                                 },
                             });
-                            location.reload();
+                            // location.reload();
                         })
                         const cancelar=document.createElement("button")
                         cancelar.id="bc"+cedula
@@ -138,18 +171,139 @@
                             document.getElementById("Eliminar").close();;
                         })
                         const br =document.createElement("br")
-                        document.getElementById("Eliminar").append(p,br,aceptar,cancelar)
+                        const centrar=document.createElement("center")
+                        centrar.append(aceptar,cancelar)
+                        document.getElementById("Eliminar").append(p,br,centrar)
                         document.getElementById("Eliminar").showModal();
                     })
                     
-                    Eliminar.appendChild(boton2)
-                    row.append(nombre,apellido,apellido,cedula,telefono,rol,Editar,Eliminar)
+                    Acciones.appendChild(boton2)
+
+                    const botonDolar = document.createElement("button");
+                    botonDolar.className = "btn btn-sm btn-success"; 
+                    const iconoDolar = document.createElement("i");
+                    iconoDolar.className = "fas fa-dollar-sign";     
+                    botonDolar.appendChild(iconoDolar);
+                    botonDolar.addEventListener("click",()=>{
+                        document.getElementById("ventana pago").showModal()
+                        document.getElementById("ventana pago").innerHTML = '';
+                        const p = document.createElement("label")
+                        p.textContent=`Pago de nomina del empleado ${emp.nombre}`
+                        const centrar=document.createElement("center")
+                        const aceptar=document.createElement("button")
+                        aceptar.textContent="Confirmar"
+                        aceptar.id="bn"+emp.cedula
+                        aceptar.className="btn btn-hospital"
+                        const cancelar=document.createElement("button")
+                        cancelar.textContent="Cancelar"
+                        cancelar.id="nc"+emp.cedula
+                        cancelar.className="btn btn-hospital"
+                        cancelar.addEventListener("click",()=>{
+                            document.getElementById("ventana pago").close()
+                        })
+                        const Concepto=document.createElement("input")
+                        Concepto.type="text"
+                        Concepto.className="form-control"
+                        const monto=document.createElement("input")
+                        monto.type="number"
+                        monto.value=emp.sueldo
+                        monto.className="form-control"
+                        centrar.append(aceptar,cancelar)
+                        const label1=document.createElement("label")
+                        label1.textContent="Ingrese concepto de pago"
+                        const label2=document.createElement("label")
+                        label2.textContent="Ingrese monto"
+                        document.getElementById("ventana pago").append(p,label1,Concepto,label2,monto,centrar)
+                        aceptar.addEventListener("click",async()=>{
+                        document.getElementById("ventana pago").close()
+                        const fecha_pago=new Date().toLocaleDateString('en-CA');
+                        const id=emp.empleado_id
+                        const concepto = Concepto.value;
+                        const montos = monto.value;
+                        const rolData = {
+                            fecha_pago: fecha_pago,
+                            empleado_id: id,
+                            concepto: concepto,
+                            monto: montos,
+                        };
+                        
+                        const postResponse = await fetch('http://localhost:6500/pago_empleado', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify(rolData)
+                        });
+                                            })
+                    })
+                    Acciones.appendChild(botonDolar)
+                    row.append(nombre,apellido,apellido,cedula,telefono,rol,Acciones)
                     tabla.appendChild(row);
                 });
             } catch (error) {
                 console.error("Error al cargar empleados:", error);
             }
         });
+        // agregar especialidad y roles
+        document.getElementById("agregar rol").addEventListener("click", () => {
+    document.getElementById("ventana rol").showModal();
+});
+
+document.getElementById("cargar especialidad").addEventListener("click", () => {
+    document.getElementById("ventana especialidad").showModal();
+});
+
+document.getElementById("confirmar rol").addEventListener("click", async () => {
+    document.getElementById("ventana rol").close();
+    const nombre = document.getElementById("nombre rol").value;
+    const descripcion = document.getElementById("descripcion rol").value;
+    const rolData = {
+        nombre: nombre,
+        descripcion: descripcion,
+    };
+    
+    const postResponse = await fetch('http://localhost:6500/roles', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(rolData)
+    });
+    
+    document.getElementById("nombre rol").value = '';
+    document.getElementById("descripcion rol").value = '';
+});
+
+document.getElementById("confirmar especialidad").addEventListener("click", async () => {
+    document.getElementById("ventana especialidad").close();
+    const nombre = document.getElementById("nombre especialidad").value;
+    const descripcion = document.getElementById("descripcion especialidad").value;
+    const especialidadData = {
+        nombre: nombre,
+        descripcion: descripcion,
+    };
+    
+    const postResponse = await fetch('http://localhost:6500/especialidades', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(especialidadData)
+    });
+    
+    
+    document.getElementById("nombre especialidad").value = '';
+    document.getElementById("descripcion especialidad").value = '';
+});
+document.getElementById("cancelar rol").addEventListener("click",()=>{
+    document.getElementById("ventana rol").close();
+})
+document.getElementById("cancelar especialidad").addEventListener("click",()=>{
+    document.getElementById("ventana especialidad").close();
+})
+document.getElementById("cancelar pago").addEventListener("click",()=>{
+    document.getElementById("ventana pago").close();
+})
     </script>
 </body>
 </html>

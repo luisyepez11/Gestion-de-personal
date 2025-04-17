@@ -1,10 +1,10 @@
 // FUNCIONES DE VALIDACION Y MANIPULACION DE DOM
 // Cedula enviada
-const cedula_enviada = localStorage.getItem("cedula");
-console.log(cedula_enviada);
+const empleado_id = localStorage.getItem("cedula");
 let cedula_usuario=""
 let email_usuario=""
 let telefono_usuario=""
+let cedula_enviada=""
 // Función para mostrar mensajes de error (desaparece después de 5 segundos)
 function mostrarError(mensaje) {
     // Eliminar errores previos
@@ -206,10 +206,6 @@ function validarFechaContratacion(fechaCont, fechaNac) {
         return { valido: false, error: "La fecha de contratación no puede ser futura" };
     }
     
-    // No puede ser más antigua que 6 meses antes de hoy
-    if (fechaContratacion < maxAntiguedad) {
-        return { valido: false, error: "La fecha de contratación no puede ser anterior a 6 meses antes de hoy" };
-    }
     
     // Debe ser posterior a la fecha de nacimiento
     if (fechaContratacion <= fechaNacimiento) {
@@ -270,7 +266,8 @@ async function cargar() {
     }
     try{
         // cambio
-        const response = await fetch(`http://localhost:6500/empleados/${cedula_enviada}`);
+        const response  = await fetch(`http://localhost:6500/empleados/${empleado_id}`);
+        console.log(`http://localhost:6500/empleados/${empleado_id}`)
         const data = await response.json();
         const item = data[0]
         const nombre=document.getElementById("nombre");
@@ -279,9 +276,7 @@ async function cargar() {
         apellido.value=item.apellido
         const ci=document.getElementById("cedula");
         ci.value=item.cedula
-
-        cedula_usuario=item.cedula.toString
-
+        cedula_enviada=item.cedula
         const fechas_nacimiento=document.getElementById("fecha_nacimiento");
         fechas_nacimiento.value=item.fecha_nacimiento.split('T')[0]
         const fecha_contratacion=document.getElementById("fecha_ingreso");
@@ -308,6 +303,10 @@ async function cargar() {
         cargo.value=item.cargo
         const sueldo=document.getElementById("sueldo");
         sueldo.value=item.sueldo
+
+        const cuenta=document.getElementById("cuenta");
+        cuenta.value=item.numero_cuenta_empleado
+
     }catch(error){
                 console.error('Error carga de  empleado:', error);
                 alert('Error cargar el  empleado: ' + error.message);
@@ -465,23 +464,26 @@ document.getElementById("cargar").addEventListener("click", async () => {
         return;
     }
 
-        // Preparar y enviar datos al servidor
-        const empleadoData = {
-            nombre: nombre,
-            apellido: apellido,
-            cedula: ci,
-            fecha_nacimiento: fechas_nacimiento,
-            fecha_contratacion: fecha_contratacion,
-            direccion: direccion,
-            email: email,
-            telefono: telefono,
-            rol_id: rol,
-            departamento_id: especialidad,
-            cargo: cargo,
-            sueldo: sueldo
-        };
+    const cuenta =document.getElementById("cuenta").value;
+    // Preparar y enviar datos al servidor
+    const empleadoData = {
+        id: empleado_id,  
+        nombre: nombre,
+        apellido: apellido,
+        cedula: ci,
+        fecha_nacimiento: fechas_nacimiento,
+        fecha_contratacion: fecha_contratacion,
+        direccion: direccion,
+        email: email,
+        telefono: telefono,
+        rol_id: rol,
+        departamento_id: especialidad,
+        cargo: cargo,
+        sueldo: sueldo,
+        cuenta: cuenta  
+    };
 
-        const putResponse = await fetch('http://localhost:6500/empleados/1', {
+        const putResponse = await fetch(`http://localhost:6500/empleados/${empleado_id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -507,3 +509,65 @@ document.getElementById("cargar").addEventListener("click", async () => {
     })
     
 });
+
+document.getElementById("agregar rol").addEventListener("click",()=>{
+    document.getElementById("ventana rol").showModal()
+})
+document.getElementById("cargar especialidad").addEventListener("click",()=>{
+    document.getElementById("ventana especialidad").showModal()
+})
+document.getElementById("confirmar rol").addEventListener("click", async () => {
+    document.getElementById("ventana rol").close();
+    const nombre = document.getElementById("nombre rol").value;
+    const descripcion = document.getElementById("descripcion rol").value;
+    const rolData = {
+        nombre: nombre,
+        descripcion: descripcion,
+    };
+    
+    const postResponse = await fetch('http://localhost:6500/roles', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(rolData)
+    });
+    cargar()
+    document.getElementById("nombre rol").value = '';
+    document.getElementById("descripcion rol").value = '';
+});
+
+document.getElementById("confirmar especialidad").addEventListener("click", async () => {
+    document.getElementById("ventana especialidad").close();
+    const nombre = document.getElementById("nombre especialidad").value;
+    const descripcion = document.getElementById("descripcion especialidad").value;
+    const especialidadData = {
+        nombre: nombre,
+        descripcion: descripcion,
+    };
+    
+    const postResponse = await fetch('http://localhost:6500/especialidades', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(especialidadData)
+    });
+    
+});
+document.getElementById("ventana especialidad").addEventListener("close",()=>{
+    cargar()
+    document.getElementById("nombre especialidad").value = '';
+    document.getElementById("descripcion especialidad").value = '';
+})
+document.getElementById("ventana rol").addEventListener("close",()=>{
+    cargar()
+    document.getElementById("nombre rol").value = '';
+    document.getElementById("descripcion rol").value = '';
+})
+document.getElementById("cancelar rol").addEventListener("click",()=>{
+    document.getElementById("ventana rol").close();
+})
+document.getElementById("cancelar especialidad").addEventListener("click",()=>{
+    document.getElementById("ventana especialidad").close();
+})

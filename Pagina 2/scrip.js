@@ -394,7 +394,6 @@ document.getElementById("cargar").addEventListener("click", async () => {
     const cedulas = data.rows.map(item => item.cedula.toString());
     const emails = data.rows.map(item => item.email?.toLowerCase()); // Usamos ?. por si email es null
     const telefonos = data.rows.map(item => item.telefono);
-
     // 1. Validar cédula única
     if (cedulas.includes(ci.toString())) {
         mostrarError("Esta cédula ya está registrada");
@@ -412,7 +411,7 @@ document.getElementById("cargar").addEventListener("click", async () => {
         mostrarError("Este número de teléfono ya está registrado");
         return;
     }
-
+    const cuenta =document.getElementById("cuenta").value;
         // Preparar y enviar datos al servidor
         const empleadoData = {
             nombre: nombre,
@@ -426,7 +425,8 @@ document.getElementById("cargar").addEventListener("click", async () => {
             rol_id: rol,
             departamento_id: especialidad,
             cargo: cargo,
-            sueldo: sueldo
+            sueldo: sueldo,
+            numero_cuenta:cuenta
         };
 
         const postResponse = await fetch('http://localhost:6500/empleados', {
@@ -450,3 +450,64 @@ document.getElementById("cargar").addEventListener("click", async () => {
         mostrarError('Error al registrar empleado: ' + error.message);
     }
 });
+document.getElementById("agregar rol").addEventListener("click",()=>{
+    document.getElementById("ventana rol").showModal()
+})
+document.getElementById("cargar especialidad").addEventListener("click",()=>{
+    document.getElementById("ventana especialidad").showModal()
+})
+document.getElementById("confirmar rol").addEventListener("click", async () => {
+    document.getElementById("ventana rol").close();
+    const nombre = document.getElementById("nombre rol").value;
+    const descripcion = document.getElementById("descripcion rol").value;
+    const rolData = {
+        nombre: nombre,
+        descripcion: descripcion,
+    };
+    
+    const postResponse = await fetch('http://localhost:6500/roles', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(rolData)
+    });
+    cargar()
+    document.getElementById("nombre rol").value = '';
+    document.getElementById("descripcion rol").value = '';
+});
+
+document.getElementById("confirmar especialidad").addEventListener("click", async () => {
+    document.getElementById("ventana especialidad").close();
+    const nombre = document.getElementById("nombre especialidad").value;
+    const descripcion = document.getElementById("descripcion especialidad").value;
+    const especialidadData = {
+        nombre: nombre,
+        descripcion: descripcion,
+    };
+    
+    const postResponse = await fetch('http://localhost:6500/especialidades', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(especialidadData)
+    });
+    
+});
+document.getElementById("ventana especialidad").addEventListener("close",()=>{
+    cargar()
+    document.getElementById("nombre especialidad").value = '';
+    document.getElementById("descripcion especialidad").value = '';
+})
+document.getElementById("ventana rol").addEventListener("close",()=>{
+    cargar()
+    document.getElementById("nombre rol").value = '';
+    document.getElementById("descripcion rol").value = '';
+})
+document.getElementById("cancelar rol").addEventListener("click",()=>{
+    document.getElementById("ventana rol").close();
+})
+document.getElementById("cancelar especialidad").addEventListener("click",()=>{
+    document.getElementById("ventana especialidad").close();
+})

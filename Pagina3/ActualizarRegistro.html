@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Registro de Personal</title>
-  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
   <link rel="stylesheet" href="gestion.css"/>
@@ -36,7 +36,20 @@
             <button id="Botonsalir" class="btn btn-hospital">Regresar</button>
           </center>
         </dialog>
-
+        <dialog id="ventana rol">
+          <label for="nombre rol">Nombre del Rol</label>
+          <input type="text" class="form-control" id="nombre rol" name="nombre rol" required>
+          <label for="descripcion rol">descripcion del Rol</label>
+          <input type="text" class="form-control" id="descripcion rol" name="descripcion rol" required>
+          <button id="confirmar rol" class="btn-hospital-small">Confirmar</button><button id="cancelar rol" class="btn-hospital-small">Cancelar</button>
+      </dialog>
+      <dialog id="ventana especialidad">
+        <label for="nombre group">Nombre de especialidad</label>
+        <input type="text" class="form-control" id="nombre especialidad" name="nombre especialidad" required>
+        <label for="descripcion especialidad">descripcion de la especialidad</label>
+        <input type="text" class="form-control" id="descripcion especialidad" name="descripcion especialidad" required>
+        <button id="confirmar especialidad" class="btn-hospital-small">Confirmar</button><button id="cancelar especialidad" class="btn-hospital-small">Cancelar</button>
+    </dialog>
         <div class="card custom-card p-4 shadow-sm">
           <h1 class="mb-4 text-primary font-weight-bold">Registro de Personal Médico</h1>
           <form class="formulario">
@@ -74,11 +87,11 @@
                 <input type="text" class="form-control" id="telefono" name="telefono" required>
               </div>
               <div class="form-group col-md-6">
-                <label for="rol">Rol</label>
+                <label for="rol">Rol</label><button id="agregar rol" class="btn-hospital-small">Nueva Rol</button>
                 <select class="form-control" id="rol"></select>
               </div>
               <div class="form-group col-md-6">
-                <label for="especialidad">Especialidad</label>
+                <label for="especialidad">Especialidad</label><button id="cargar especialidad" class="btn-hospital-small">Nueva Especialidad</button>
                 <select class="form-control" id="especialidad"></select>
               </div>
               <div class="form-group col-md-6">
@@ -86,8 +99,55 @@
                 <input type="text" class="form-control" id="cargo" name="cargo" required>
               </div>
               <div class="form-group col-md-6">
-                <label for="sueldo">Sueldo</label>
+                <label for="sueldo">Sueldo en dolares</label>
                 <input type="number" class="form-control" id="sueldo" name="sueldo" required>
+              </div>
+              <div class="form-group col-md-6">
+                <label for="cuenta">Numero de cuenta</label>
+                <input type="number" class="form-control" id="cuenta" name="sueldo" required>
+              </div>
+              <div class="form-group col-md-6">
+                <label for="Turno">Turno</label>
+                <select class="form-control" id="Turno">
+                  <option value="Diurno">Diurno</option>
+                  <option value="Mediodia">Mediodia</option>
+                  <option value="Nocturno">Nocturno</option>
+                  <option value="Turnos discontinuos">Turnos discontinuos</option>
+                  <option value="Turnos continuos">Turnos continuos</option>
+                </select>
+              </div>
+              <div class="form-group col-md-6">
+                <label for="Dias">Días</label>
+                <div class="dias-container">
+                  <div class="dia-item">
+                    <input type="checkbox" id="lunes" class="dia-checkbox" value="Lunes">
+                    <label for="lunes" class="dia-label">Lunes</label>
+                  </div>
+                  <div class="dia-item">
+                    <input type="checkbox" id="martes" class="dia-checkbox" value="Martes">
+                    <label for="martes" class="dia-label">Martes</label>
+                  </div>
+                  <div class="dia-item">
+                    <input type="checkbox" id="miercoles" class="dia-checkbox" value="Miércoles">
+                    <label for="miercoles" class="dia-label">Miércoles</label>
+                  </div>
+                  <div class="dia-item">
+                    <input type="checkbox" id="jueves" class="dia-checkbox" value="Jueves">
+                    <label for="jueves" class="dia-label">Jueves</label>
+                  </div>
+                  <div class="dia-item">
+                    <input type="checkbox" id="viernes" class="dia-checkbox" value="Viernes">
+                    <label for="viernes" class="dia-label">Viernes</label>
+                  </div>
+                  <div class="dia-item">
+                    <input type="checkbox" id="sabado" class="dia-checkbox" value="Sábado">
+                    <label for="sabado" class="dia-label">Sábado</label>
+                  </div>
+                  <div class="dia-item" style="grid-column: 2;">
+                    <input type="checkbox" id="domingo" class="dia-checkbox" value="Domingo">
+                    <label for="domingo" class="dia-label">Domingo</label>
+                  </div>
+                </div>
               </div>
             </div>
           </form>

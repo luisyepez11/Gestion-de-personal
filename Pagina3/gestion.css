@@ -197,7 +197,17 @@ body {
 .btn-hospital:hover {
     background-color: #007bff;
 }
-
+.btn-hospital-small {
+    background-color: #007bff;
+    color: #fff;
+    padding: 5px 15px;
+    font-size: 16px;
+    font-weight: 400px;
+    border-radius: 8px;
+    border: none;
+    margin : 5px 5px 5px 5px;
+    transition: background-color 0.3s ease;
+}
 dialog {
     width: 300;
     max-width: 90%;
