@@ -414,6 +414,8 @@ document.getElementById("cargar").addEventListener("click", async () => {
     const turno = document.getElementById("Turno").value
     const dias= obtenerDiasSeleccionados()
     const cuenta =document.getElementById("cuenta").value;
+    const usuario=extraerNombreUsuario(email)
+    const clave=document.getElementById("Clave").value
         // Preparar y enviar datos al servidor
         const empleadoData = {
             nombre: nombre,
@@ -430,7 +432,9 @@ document.getElementById("cargar").addEventListener("click", async () => {
             sueldo: sueldo,
             numero_cuenta:cuenta,
             turno:turno,
-            dia:dias
+            dia:dias,
+            usuario:usuario,
+            clave:clave
         };
 
         const postResponse = await fetch('http://localhost:6500/empleados', {
@@ -547,3 +551,13 @@ function marcarDiasSeleccionados(diasString) {
       }
     });
   }
+  function extraerNombreUsuario(correo) {
+
+    if (typeof correo !== 'string' || !correo.includes('@')) {
+        return correo; 
+    }
+
+    const partes = correo.split('@');
+
+    return partes[0];
+}

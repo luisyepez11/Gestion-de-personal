@@ -30,27 +30,13 @@ class empleados{
             }
     
             try {
-                // 1. Eliminar registros relacionados
-                const queries = [
-                    { query: 'DELETE FROM nominas WHERE empleado_id = ?', params: [id], name: 'nominas' },
-                    { query: 'DELETE FROM pagos_empleados WHERE empleado_id = ?', params: [id], name: 'pagos_empleados' },
-                    { query: 'DELETE FROM horarios WHERE empleado_id = ?', params: [id], name: 'horarios' }
-                ];
-    
-                // Ejecutar todas las consultas de eliminación
-                const results = {};
-                for (const queryObj of queries) {
-                    const [result] = await db.promise().query(queryObj.query, queryObj.params);
-                    results[queryObj.name] = result.affectedRows;
-                }
-    
-                // 2. Eliminar el empleado
-                const [deleteResult] = await db.promise().query(
-                    'DELETE FROM empleados WHERE empleado_id = ?', 
+                // 1. Primero verificar si el empleado existe
+                const [empleadoExistente] = await db.promise().query(
+                    'SELECT * FROM empleados WHERE empleado_id = ?', 
                     [id]
                 );
     
-                if (deleteResult.affectedRows === 0) {
+                if (empleadoExistente.length === 0) {
                     await db.promise().rollback();
                     console.error('No se encontró empleado con ID:', id);
                     return res.status(404).json({ 
@@ -60,14 +46,50 @@ class empleados{
                     });
                 }
     
-                // 3. Verificar y ajustar AUTO_INCREMENT si es necesario
+                // 2. Eliminar todos los registros dependientes (orden correcto para evitar restricciones)
+                const tablasRelacionadas = [
+                    'usuarios',    // Primero eliminar usuarios
+                    'pagos_empleados',
+                    'nominas',
+                    'horarios'
+                ];
+    
+                const resultadosEliminacion = {};
+                
+                for (const tabla of tablasRelacionadas) {
+                    try {
+                        const [resultado] = await db.promise().query(
+                            `DELETE FROM ${tabla} WHERE empleado_id = ?`,
+                            [id]
+                        );
+                        resultadosEliminacion[tabla] = resultado.affectedRows;
+                    } catch (error) {
+                        console.error(`Error al eliminar de ${tabla}:`, error);
+                        resultadosEliminacion[tabla] = `Error: ${error.code || error.message}`;
+                    }
+                }
+    
+                const [deleteResult] = await db.promise().query(
+                    'DELETE FROM empleados WHERE empleado_id = ?', 
+                    [id]
+                );
+    
+                if (deleteResult.affectedRows === 0) {
+                    await db.promise().rollback();
+                    return res.status(500).json({ 
+                        success: false,
+                        error: 'Error inesperado',
+                        details: 'No se pudo eliminar el empleado después de eliminar registros relacionados'
+                    });
+                }
+    
+                // 4. Opcional: Resetear AUTO_INCREMENT si la tabla queda vacía
                 try {
                     const [maxId] = await db.promise().query(
                         'SELECT MAX(empleado_id) as maxId FROM empleados'
                     );
                     
                     if (maxId[0].maxId === null) {
-                        // Si la tabla está vacía, resetear el AUTO_INCREMENT
                         await db.promise().query(
                             'ALTER TABLE empleados AUTO_INCREMENT = 1'
                         );
@@ -75,10 +97,8 @@ class empleados{
                     }
                 } catch (autoIncrError) {
                     console.warn('No se pudo ajustar AUTO_INCREMENT:', autoIncrError);
-                    // No hacemos rollback por este error menor
                 }
     
-                // Confirmar transacción
                 await db.promise().commit();
     
                 console.log(`Empleado ID ${id} eliminado exitosamente`);
@@ -87,24 +107,34 @@ class empleados{
                     message: 'Empleado eliminado con todos sus registros asociados',
                     details: {
                         empleadoEliminado: deleteResult.affectedRows,
-                        registrosRelacionados: results
+                        registrosRelacionados: resultadosEliminacion
                     }
                 });
     
             } catch (error) {
                 await db.promise().rollback();
                 console.error('Error en la transacción:', error);
+                
+                if (error.code === 'ER_ROW_IS_REFERENCED_2') {
+                    return res.status(409).json({ 
+                        success: false,
+                        error: 'No se puede eliminar el empleado',
+                        details: 'Existen registros asociados en otras tablas que no pudieron ser eliminados',
+                        sqlMessage: error.sqlMessage
+                    });
+                }
+                
                 return res.status(500).json({ 
                     success: false,
                     error: 'Error al eliminar empleado',
-                    details: error.message
+                    details: error.message,
+                    stack: process.env.NODE_ENV === 'development' ? error.stack : undefined
                 });
             }
         });
     }
     actualizar(req, res) {
         try {
-            // Asegurar consistencia en los nombres de campos
             const { 
                 id, 
                 nombre, 
@@ -121,10 +151,11 @@ class empleados{
                 sueldo, 
                 cuenta,
                 turno,
-                dia
+                dia,
+                usuario,  
+                clave    
             } = req.body;
     
-            // Validación mejorada
             const camposRequeridos = {
                 id: 'ID del empleado',
                 nombre: 'Nombre',
@@ -147,7 +178,6 @@ class empleados{
                 });
             }
     
-            // Iniciar transacción
             db.beginTransaction(async (beginErr) => {
                 if (beginErr) {
                     return res.status(500).json({
@@ -158,7 +188,6 @@ class empleados{
                 }
     
                 try {
-                    // 1. Actualizar empleado
                     const [empResults] = await db.promise().query(
                         `UPDATE empleados SET 
                             nombre = ?,
@@ -186,7 +215,6 @@ class empleados{
                         });
                     }
     
-                    // 2. Actualizar nómina
                     const [nomResults] = await db.promise().query(
                         `UPDATE nominas SET 
                             salario_base = ?,
@@ -195,9 +223,7 @@ class empleados{
                         WHERE empleado_id = ?`,
                         [sueldo, sueldo, cuenta, id]
                     );
-    
-                    // 3. Actualizar o insertar horario
-                    // Primero verificamos si existe un horario para este empleado
+
                     const [existingHorario] = await db.promise().query(
                         `SELECT * FROM horarios WHERE empleado_id = ?`,
                         [id]
@@ -205,7 +231,6 @@ class empleados{
     
                     let horarioResults;
                     if (existingHorario.length > 0) {
-                        // Si existe, actualizamos
                         [horarioResults] = await db.promise().query(
                             `UPDATE horarios SET 
                                 turno = ?,
@@ -214,13 +239,50 @@ class empleados{
                             [turno, dia, id]
                         );
                     } else {
-                        // Si no existe, insertamos nuevo registro
                         [horarioResults] = await db.promise().query(
                             `INSERT INTO horarios 
                             (turno, dia, empleado_id) 
                             VALUES (?, ?, ?)`,
                             [turno, dia, id]
                         );
+                    }
+    
+                    let usuarioResults = null;
+                    if (usuario || clave) {
+          
+                        const [existingUsuario] = await db.promise().query(
+                            `SELECT * FROM usuarios WHERE empleado_id = ?`,
+                            [id]
+                        );
+    
+                        if (existingUsuario.length > 0) {
+  
+                            let updateQuery = 'UPDATE usuarios SET ';
+                            const updateParams = [];
+                            
+                            if (usuario) {
+                                updateQuery += 'usuario = ?, ';
+                                updateParams.push(usuario);
+                            }
+                            
+                            if (clave) {
+                                updateQuery += 'clave = ?, ';
+                                updateParams.push(clave); 
+                            }
+               
+                            updateQuery = updateQuery.slice(0, -2);
+                            updateQuery += ' WHERE empleado_id = ?';
+                            updateParams.push(id);
+                            
+                            [usuarioResults] = await db.promise().query(updateQuery, updateParams);
+                        } else if (usuario && clave) {
+                            [usuarioResults] = await db.promise().query(
+                                `INSERT INTO usuarios 
+                                (usuario, clave, empleado_id) 
+                                VALUES (?, ?, ?)`,
+                                [usuario, clave, id] 
+                            );
+                        }
                     }
     
                     await db.promise().commit();
@@ -231,14 +293,19 @@ class empleados{
                         detalles: {
                             empleado: empResults.affectedRows,
                             nomina: nomResults.affectedRows,
-                            horario: horarioResults.affectedRows || 1 // Si fue insert, affectedRows puede ser 0
+                            horario: horarioResults.affectedRows || (existingHorario.length > 0 ? 0 : 1),
+                            usuario: usuarioResults ? usuarioResults.affectedRows || 1 : 'No modificado'
                         }
                     });
     
                 } catch (error) {
                     await db.promise().rollback();
                     console.error('Error en transacción:', error);
-                    throw error;
+                    res.status(500).json({ 
+                        success: false,
+                        error: error.message || "Error interno del servidor",
+                        details: process.env.NODE_ENV === 'development' ? error.stack : undefined
+                    });
                 }
             });
     
@@ -274,19 +341,51 @@ class empleados{
         }
     }
     agregar(req, res) {
-        const { nombre, apellido, cedula, fecha_nacimiento, fecha_contratacion, 
-                direccion, email, telefono, rol_id, cargo, departamento_id, 
-                sueldo, numero_cuenta, turno, dia } = req.body;
+        const { 
+            nombre, 
+            apellido, 
+            cedula, 
+            fecha_nacimiento, 
+            fecha_contratacion, 
+            direccion, 
+            email, 
+            telefono, 
+            rol_id, 
+            cargo, 
+            departamento_id, 
+            sueldo, 
+            numero_cuenta, 
+            turno, 
+            dia,
+            usuario,  
+            clave     
+        } = req.body;
     
-        // Validación de campos requeridos
-        if (!nombre || !cedula || !sueldo || !numero_cuenta || !turno || !dia) {
+  
+        const camposRequeridos = {
+            nombre: 'Nombre',
+            cedula: 'Cédula',
+            sueldo: 'Sueldo',
+            numero_cuenta: 'Número de cuenta',
+            turno: 'Turno',
+            dia: 'Día',
+            usuario: 'Nombre de usuario', 
+            clave: 'Contraseña'          
+        };
+    
+        const faltantes = Object.entries(camposRequeridos)
+            .filter(([key]) => !req.body[key])
+            .map(([_, name]) => name);
+    
+        if (faltantes.length > 0) {
             return res.status(400).json({ 
                 success: false,
-                error: "Nombre, cédula, sueldo, número de cuenta, turno y día son campos obligatorios" 
+                error: `Campos requeridos faltantes: ${faltantes.join(', ')}`,
+                camposFaltantes: faltantes
             });
         }
     
-        // Iniciar transacción
+
         db.beginTransaction((beginErr) => {
             if (beginErr) {
                 return res.status(500).json({
@@ -296,7 +395,7 @@ class empleados{
                 });
             }
     
-            // 1. Insertar empleado
+
             db.query(
                 `INSERT INTO empleados 
                 (nombre, apellido, cedula, fecha_nacimiento, fecha_contratacion, 
@@ -317,7 +416,7 @@ class empleados{
     
                     const empleadoId = result.insertId;
     
-                    // 2. Insertar nómina
+      
                     db.query(
                         `INSERT INTO nominas 
                         (salario_base, salario_neto, empleado_id, numero_cuenta) 
@@ -334,7 +433,7 @@ class empleados{
                                 });
                             }
     
-                            // 3. Insertar horario
+           
                             db.query(
                                 `INSERT INTO horarios 
                                 (turno, dia, empleado_id) 
@@ -351,26 +450,50 @@ class empleados{
                                         });
                                     }
     
-                                    // Confirmar transacción
-                                    db.commit((commitErr) => {
-                                        if (commitErr) {
-                                            return db.rollback(() => {
-                                                res.status(500).json({
-                                                    success: false,
-                                                    error: "Error al confirmar transacción",
-                                                    details: commitErr.message
+                                   
+                                    // const claveEncriptada = encriptarClave(clave)
+                                    
+                                    db.query(
+                                        `INSERT INTO usuarios 
+                                        (usuario, clave, empleado_id) 
+                                        VALUES (?, ?, ?)`,
+                                        [usuario, clave, empleadoId],
+                                        (usuarioErr, usuarioResult) => {
+                                            if (usuarioErr) {
+                                                return db.rollback(() => {
+                                                    res.status(500).json({
+                                                        success: false,
+                                                        error: "Error al crear usuario",
+                                                        details: usuarioErr.message
+                                                    });
+                                                });
+                                            }
+    
+                              
+                                            db.commit((commitErr) => {
+                                                if (commitErr) {
+                                                    return db.rollback(() => {
+                                                        res.status(500).json({
+                                                            success: false,
+                                                            error: "Error al confirmar transacción",
+                                                            details: commitErr.message
+                                                        });
+                                                    });
+                                                }
+    
+                                                res.status(201).json({
+                                                    success: true,
+                                                    id: empleadoId,
+                                                    message: "Empleado, nómina, horario y usuario registrados exitosamente",
+                                                    detalles: {
+                                                        nominaId: nominaResult.insertId,
+                                                        horarioId: horarioResult.insertId,
+                                                        usuarioId: usuarioResult.insertId
+                                                    }
                                                 });
                                             });
                                         }
-    
-                                        res.status(201).json({
-                                            success: true,
-                                            id: empleadoId,
-                                            message: "Empleado, nómina y horario registrados exitosamente",
-                                            nominaId: nominaResult.insertId,
-                                            horarioId: horarioResult.insertId
-                                        });
-                                    });
+                                    );
                                 }
                             );
                         }
@@ -381,7 +504,6 @@ class empleados{
     }
     consultar_uno(req, res) {
         const { id } = req.params;
-        console.log(`Consultando empleado con ID: ${id}`); // Log para diagnóstico
         
         if (!id || isNaN(id)) {
             console.error('ID inválido recibido:', id);
@@ -401,7 +523,9 @@ class empleados{
                     d.nombre AS nombre_departamento,
                     n.numero_cuenta AS numero_cuenta,
                     h.turno,
-                    h.dia
+                    h.dia,
+                    u.usuario,
+                    u.clave
                 FROM 
                     empleados e
                 LEFT JOIN 
@@ -412,6 +536,8 @@ class empleados{
                     nominas n ON e.empleado_id = n.empleado_id
                 LEFT JOIN
                     horarios h ON e.empleado_id = h.empleado_id
+                LEFT JOIN
+                    usuarios u ON e.empleado_id = u.empleado_id
                 WHERE 
                     e.empleado_id = ?`, [id], (err, results) => {
                     
@@ -425,7 +551,7 @@ class empleados{
                     });
                 }
     
-                console.log('Resultados de consulta:', results); // Ver qué devuelve la consulta
+                console.log('Resultados de consulta:', results);
                 
                 if (!results || results.length === 0) {
                     console.log('No se encontró empleado con ID:', id);
@@ -437,18 +563,23 @@ class empleados{
                 }
     
                 try {
-                    // Formatear la respuesta
                     const empleado = {
                         ...results[0],
                         horario: {
                             turno: results[0].turno || null,
                             dia: results[0].dia || null
-                        }
+                        },
+                        credenciales: results[0].usuario ? {
+                            usuario: results[0].usuario,
+                            clave: results[0].clave 
+                        } : null
                     };
     
-                    // Eliminar campos duplicados
+       
                     delete empleado.turno;
                     delete empleado.dia;
+                    delete empleado.clave;
+                    delete empleado.usuario;
     
                     console.log('Datos formateados para respuesta:', empleado);
                     

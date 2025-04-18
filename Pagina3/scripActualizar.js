@@ -270,7 +270,7 @@ async function cargar() {
         console.log(`http://localhost:6500/empleados/${empleado_id}`)
         const data = await response.json();
         const item = data.data
-        console.log(item)
+        console.log(data)
         const nombre=document.getElementById("nombre");
         nombre.value=item.nombre
         const apellido=document.getElementById("apellido");
@@ -310,6 +310,9 @@ async function cargar() {
 
         const turno=document.getElementById("Turno");
         turno.value=item.horario.turno
+
+        const clave=document.getElementById("Clave");
+        clave.value=item.credenciales.clave
 
         marcarDiasSeleccionados(item.horario.dia)
 
@@ -472,7 +475,9 @@ document.getElementById("cargar").addEventListener("click", async () => {
     const dia= obtenerDiasSeleccionados()
     const turno = document.getElementById("Turno").value
     const cuenta =document.getElementById("cuenta").value;
-    // Preparar y enviar datos al servidor
+    const clave=document.getElementById("Clave").value
+    const usuario=extraerNombreUsuario(email)
+
     const empleadoData = {
         id: empleado_id,  
         nombre: nombre,
@@ -489,7 +494,9 @@ document.getElementById("cargar").addEventListener("click", async () => {
         sueldo: sueldo,
         cuenta: cuenta ,
         turno:turno,
-        dia:dia 
+        dia:dia,
+        usuario:usuario,
+        clave:clave 
     };
 
         const putResponse = await fetch(`http://localhost:6500/empleados/${empleado_id}`, {
@@ -612,3 +619,13 @@ function marcarDiasSeleccionados(diasString) {
       }
     });
   }
+  function extraerNombreUsuario(correo) {
+
+    if (typeof correo !== 'string' || !correo.includes('@')) {
+        return correo; 
+    }
+
+    const partes = correo.split('@');
+
+    return partes[0];
+}
