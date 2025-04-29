@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Registro de Personal</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+  <link rel="stylesheet" href="styles.css"/>
+</head>
+<body>
+  <div class="container-fluid">
+    <div class="row">
+      <nav class="col-md-2 d-none d-md-block sidebar">
+        <img src="../../inicio/assets/alternative-logo.jpg" alt="Grey + Sloan Memorial Hospital">
+        <i class="fas fa-home"></i><a href="../../inicio/views/dashboard.html"> Inicio</a>
+        <div id="10"><i class="fas fa-users"></i><a href="../../modulo_gestionpersonal/Pagina 1/GestionPersonal.html"> Gestión de Personal</a></div>
+        <div id="4"><i class="fas fa-vial"></i><a href="#"> Laboratorio</a></div>
+        <div id="3"><i class="fas fa-boxes"></i><a href="#"> Inventario</a></div>
+        <div id="1"><i class="fas fa-shopping-cart"></i><a href="../../modulo_compras/views/index.html"> Compras</a></div>
+        <div id="6"><i class="fas fa-tooth"></i><a href="http://localhost:3002/consultas-odontologicas"> Consultas Odontológicas</a></div>
+        <div id="7"><i class="fas fa-stethoscope"></i><a href="#"> Consultas Médicas</a></div>
+        <div id="9"><i class="fas fa-file-invoice-dollar"></i><a href="../../modulo_administracion/views/index.html"> Administración</a></div>
+        <div id="5"><i class="fas fa-procedures"></i><a href="#"> Hospitalización</a></div>
+        <div id="2"><i class="fas fa-tools"></i><a href="#"> Mantenimiento</a></div>
+        <div id="8"><i class="fas fa-calendar-check"></i><a href="#"> Gestión de Citas</a></div>
+        <i class="fas fa-external-link-square-alt"></i><a href="../../inicio/views/index.html"> Cerrar Sesión</a>
+      </nav>
+
+      <main role="main" class="main-content col-md-10 ml-sm-auto col-lg-10 px-md-5 pt-4">
+          <h1>Actualización de Personal</h1>
+          <hr>
+          <form class="formulario">
+            <div id="general">
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="nombre">Nombre</label>
+                  <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre" required>
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="apellido">Apellido</label>
+                  <input type="text" class="form-control" id="apellido" name="apellido" placeholder="Apellido" required>
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="cedula">Cédula de Identidad</label>
+                  <input type="number" class="form-control" id="cedula" name="cedula" placeholder="Cédula de Identidad" required>
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="fecha_nacimiento">Fecha de Nacimiento</label>
+                  <input type="date" class="form-control" id="fecha_nacimiento" name="fecha_nacimiento" required>
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="fecha_ingreso">Fecha de Contratación</label>
+                  <input type="date" class="form-control" id="fecha_ingreso" name="fecha_ingreso" required>
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="direccion">Dirección</label>
+                  <input type="text" class="form-control" id="direccion" name="direccion" placeholder="Dirección" required>
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="email">Correo Electrónico</label>
+                  <input type="email" class="form-control" id="email" name="email" placeholder="Correo Electrónico" required>
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="telefono">Teléfono</label>
+                  <input type="text" class="form-control" id="telefono" name="telefono" placeholder="Teléfono" required>
+                </div>
+              </div>
+              <div class="text-right mt-3">
+                <button type="button" id="mostrar-administrativo" class="switch">Datos Administrativos <i class="fas fa-long-arrow-alt-right"></i></button>
+              </div>
+            </div>
+            <div id="administrativo" style="display: none;">
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="rol">Profesión</label>
+                  <div style="display: flex; gap: 5px;">
+                    <select class="form-control" id="rol" style="display: inline-block; width: 60%;"></select>
+                    <button id="agregar-rol" class="btn-hospital-small" style="display: inline-block; width: 40%;" type="button">Registrar profesión</button>
+                  </div>
+                </div>
+
+                <div class="form-group col-md-6">
+                  <label for="especialidad">Especialidad</label>
+                  <div style="display: flex; gap: 5px;">
+                    <select class="form-control" id="especialidad" style="width: 60%; display: inline-block;"></select>
+                    <button id="cargar-especialidad" class="btn-hospital-small" style="display: inline-block; width: 40%;" type="button">Registrar especialidad</button>
+                  </div>
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="cargo">Cargo</label>
+                  <select class="form-control cargo-select" id="cargo">
+                    <option value="Director">Director</option>
+                    <option value="Jefe">Jefe</option>
+                    <option value="Supervisor">Supervisor</option>
+                    <option value="Empleado">Empleado</option>
+                    <option value="Auxiliar">Auxiliar</option>
+                  </select>
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="sueldo">Sueldo base ($)</label>
+                  <input type="number" class="form-control" id="sueldo" name="sueldo" placeholder="Sueldo ($)" required>
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="sueldo-neto">Sueldo neto ($)</label>
+                  <input type="number" class="form-control" id="sueldo-neto" name="sueldo-neto" placeholder="Sueldo neto ($)" required>
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="cuenta">Número de Cuenta</label>
+                  <input type="number" class="form-control" id="cuenta" name="cuenta" placeholder="Número de Cuenta" required>
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="area">Área</label>
+                  <select class="form-control turno-select" id="area">
+                    <option value="Compras">Compras</option>
+                    <option value="Mantenimiento">Mantenimiento</option>
+                    <option value="Inventario">Inventario</option>
+                    <option value="Laboratorio">Laboratorio</option>
+                    <option value="Hospitalización">Hospitalización</option>
+                    <option value="Consultas Odontológicas">Consultas Odontológicas</option>
+                    <option value="Consultas Médicas">Consultas Médicas Generales y Especializadas</option>
+                    <option value="Gestión de Citas">Gestión de Citas</option>
+                    <option value="Administración">Administración</option>
+                    <option value="Gestión de Personal">Gestión de Personal</option>
+                  </select>
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="Descripcion_empleado">descripcion de Trabajo</label>
+                  <input type="text" id="descripcion_empleado" class="form-control">
+                </div>
+              </div><br>
+              <div>
+                <button type="button" id="mostrar-general" class="switch"><i class="fas fa-long-arrow-alt-left"></i> Información general</button>
+                <button type="button" id="mostrar-horario" class="switch" style="float: right;">Horario <i class="fas fa-long-arrow-alt-right"></i></button>
+              </div>
+            </div>
+            <div id="horario" style="display: none;">
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                    <div class="dia-turno-item">
+                      <div class="dia-check">
+                        <input type="checkbox" id="lunes" class="dia-checkbox" value="Lunes">
+                        <label for="lunes" class="dia-label">Lunes</label>
+                      </div>
+                      <select class="form-control turno-select" id="turno-lunes">
+                        <option value="No asiste">No asiste</option>
+                        <option value="Diurno">Diurno</option>
+                        <option value="Mediodia">Mediodía</option>
+                        <option value="Nocturno">Nocturno</option>
+                        <option value="Turnos discontinuos">Turnos discontinuos</option>
+                        <option value="Turnos continuos">Turnos continuos</option>
+                      </select>
+                    </div>
+                </div>
+
+                <div class="form-group col-md-6">
+                    <div class="dia-turno-item">
+                      <div class="dia-check">
+                        <input type="checkbox" id="martes" class="dia-checkbox" value="Martes">
+                        <label for="martes" class="dia-label">Martes</label>
+                      </div>
+                      <select class="form-control turno-select" id="turno-martes">
+                        <option value="No asiste">No asiste</option>
+                        <option value="Diurno">Diurno</option>
+                        <option value="Mediodia">Mediodía</option>
+                        <option value="Nocturno">Nocturno</option>
+                        <option value="Turnos discontinuos">Turnos discontinuos</option>
+                        <option value="Turnos continuos">Turnos continuos</option>
+                      </select>
+                    </div>
+                </div>
+                
+                <div class="form-group col-md-6">
+                  <div class="dia-turno-item">
+                    <div class="dia-check">
+                      <input type="checkbox" id="miercoles" class="dia-checkbox" value="Miércoles">
+                      <label for="miercoles" class="dia-label">Miércoles</label>
+                    </div>
+                    <select class="form-control turno-select" id="turno-miercoles">
+                      <option value="No asiste">No asiste</option>
+                      <option value="Diurno">Diurno</option>
+                      <option value="Mediodia">Mediodía</option>
+                      <option value="Nocturno">Nocturno</option>
+                      <option value="Turnos discontinuos">Turnos discontinuos</option>
+                      <option value="Turnos continuos">Turnos continuos</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-group col-md-6">
+                    <div class="dia-turno-item">
+                      <div class="dia-check">
+                        <input type="checkbox" id="jueves" class="dia-checkbox" value="Jueves">
+                        <label for="jueves" class="dia-label">Jueves</label>
+                      </div>
+                      <select class="form-control turno-select" id="turno-jueves">
+                        <option value="No asiste">No asiste</option>
+                        <option value="Diurno">Diurno</option>
+                        <option value="Mediodia">Mediodía</option>
+                        <option value="Nocturno">Nocturno</option>
+                        <option value="Turnos discontinuos">Turnos discontinuos</option>
+                        <option value="Turnos continuos">Turnos continuos</option>
+                      </select>
+                    </div>
+                </div>
+                
+                <div class="form-group col-md-6">
+                    <div class="dia-turno-item">
+                      <div class="dia-check">
+                        <input type="checkbox" id="viernes" class="dia-checkbox" value="Viernes">
+                        <label for="viernes" class="dia-label">Viernes</label>
+                      </div>
+                      <select class="form-control turno-select" id="turno-viernes">
+                        <option value="No asiste">No asiste</option>
+                        <option value="Diurno">Diurno</option>
+                        <option value="Mediodia">Mediodía</option>
+                        <option value="Nocturno">Nocturno</option>
+                        <option value="Turnos discontinuos">Turnos discontinuos</option>
+                        <option value="Turnos continuos">Turnos continuos</option>
+                      </select>
+                    </div>
+                </div>
+
+                <div class="form-group col-md-6">
+                    <div class="dia-turno-item">
+                      <div class="dia-check">
+                        <input type="checkbox" id="sabado" class="dia-checkbox" value="Sábado">
+                        <label for="sabado" class="dia-label">Sábado</label>
+                      </div>
+                      <select class="form-control turno-select" id="turno-sabado">
+                        <option value="No asiste">No asiste</option>
+                        <option value="Diurno">Diurno</option>
+                        <option value="Mediodia">Mediodía</option>
+                        <option value="Nocturno">Nocturno</option>
+                        <option value="Turnos discontinuos">Turnos discontinuos</option>
+                        <option value="Turnos continuos">Turnos continuos</option>
+                      </select>
+                    </div>
+                </div>
+                
+                <div class="form-group col-md-6">
+                    <div class="dia-turno-item">
+                      <div class="dia-check">
+                        <input type="checkbox" id="domingo" class="dia-checkbox" value="Domingo">
+                        <label for="domingo" class="dia-label">Domingo</label>
+                      </div>
+                      <select class="form-control turno-select" id="turno-domingo">
+                        <option value="No asiste">No asiste</option>
+                        <option value="Diurno">Diurno</option>
+                        <option value="Mediodia">Mediodía</option>
+                        <option value="Nocturno">Nocturno</option>
+                        <option value="Turnos discontinuos">Turnos discontinuos</option>
+                        <option value="Turnos continuos">Turnos continuos</option>
+                      </select>
+                    </div>
+                </div>
+              </div><br>
+              <div>
+                <button type="button" id="volver-administrativo" class="switch"><i class="fas fa-long-arrow-alt-left"></i> Datos Administrativos</button>
+                <button type="button" id="mostrar-usuario" class="switch" style="float: right;">Usuario y contraseña <i class="fas fa-long-arrow-alt-right"></i></button>
+              </div>
+            </div>
+            <div id="usuario" style="display: none;">
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="Usuario">Usuario</label>
+                  <input type="text" class="form-control" id="Usuario" name="Usuario" style="width: 70%;" placeholder="Usuario" readonly>
+                  <br><label for="Clave">Contraseña</label>
+                  <input type="password" class="form-control" id="Clave" name="Clave" style="width: 70%;" placeholder="Contraseña">
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="modulos">Módulos</label>
+                  <div>
+                    <div>
+                      <input type="checkbox" id="compras" class="modulo" value="1">
+                      <label for="compras" class="modulo-label">Compras</label>
+                    </div>
+                    <div >
+                      <input type="checkbox" id="mantenimiento" class="modulo" value="2">
+                      <label for="mantenimiento" class="modulo-label">Mantenimiento</label>
+                    </div>
+                    <div >
+                      <input type="checkbox" id="inventario" class="modulo" value="3">
+                      <label for="inventario" class="modulo-label">Inventario</label>
+                    </div>
+                    <div >
+                      <input type="checkbox" id="laboratorio" class="modulo" value="4">
+                      <label for="laboratorio" class="modulo-label">Laboratorio</label>
+                    </div>
+                    <div >
+                      <input type="checkbox" id="hospitalizacion" class="modulo" value="5">
+                      <label for="hospitalizacion" class="modulo-label">Hospitalización</label>
+                    </div>
+                    <div >
+                      <input type="checkbox" id="consulta-odontologica" class="modulo" value="6">
+                      <label for="consulta-odontologica" class="modulo-label">Consultas Odontológicas</label>
+                    </div>
+                    <div  >
+                      <input type="checkbox" id="consulta-medica" class="modulo" value="7">
+                      <label for="consulta-medica" class="modulo-label">Consultas Médicas Generales y Especializadas</label>
+                    </div>
+                    <div  >
+                      <input type="checkbox" id="gestion-citas" class="modulo" value="8">
+                      <label for="gestion-citas" class="modulo-label">Gestión de Citas</label>
+                    </div>
+                    <div  >
+                      <input type="checkbox" id="administracion" class="modulo" value="9">
+                      <label for="administracion" class="modulo-label">Administración</label>
+                    </div>
+                    <div  >
+                      <input type="checkbox" id="gestion-personal" class="modulo" value="10">
+                      <label for="gestion-personal" class="modulo-label">Gestión de Personal</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="text-left mt-3">
+                <button type="button" id="volver-horario" class="switch"><i class="fas fa-long-arrow-alt-left"></i> Horario</button>
+              </div>
+            </div>              
+            <div id="registrar-btn" class="text-center mt-3" style="display: none; margin-top: 10vh !important;">
+              <button type="submit" id="cargar">Registrar</button>
+            </div>
+          </form>
+
+          <dialog id="ventana-rol">
+            <label for="nombre-rol">Nombre</label>
+            <input type="text" class="form-control" id="nombre-rol" name="nombre-rol" required>
+            <label for="descripcion-rol">Descripción</label>
+            <input type="text" class="form-control" id="descripcion-rol" name="descripcion-rol" required>
+            <button type="submit" id="confirmar-rol" class="btn-hospital-small">Confirmar</button>
+            <button type="button" id="cancelar-rol" class="btn-hospital-small">Cancelar</button>
+          </dialog>
+
+          <dialog id="ventana-especialidad">
+            <label for="nombre-especialidad">Nombre</label>
+            <input type="text" class="form-control" id="nombre-especialidad" name="nombre-especialidad" required>
+            <label for="descripcion-especialidad">Descripción</label>
+            <input type="text" class="form-control" id="descripcion-especialidad" name="descripcion-especialidad" required>
+            <button type="submit" id="confirmar-especialidad" class="btn-hospital-small">Confirmar</button>
+            <button type="button" id="cancelar-especialidad" class="btn-hospital-small">Cancelar</button>
+        </dialog>
+        </div>
+      </main>
+    </div>
+  </div>
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script src="./scripActualizar.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+            const user = JSON.parse(localStorage.getItem('user'));
+            for (let i = 1; i <= 10; i++) {
+                if (!user.modulos.includes(String(i))) {
+                    document.getElementById(`${i}`).style.display = 'none';
+                }
+            }
+            
+            if (user.usuario != 'administrador') {
+              document.getElementById('mostrar-usuario').setAttribute('disabled', 'disabled');
+            }
+        });
+        
+    document.getElementById("mostrar-administrativo").addEventListener("click", function() {
+      document.getElementById("administrativo").style.display = "block";
+      document.getElementById("general").style.display = "none";
+      document.getElementById("registrar-btn").style.display = "none";
+    });
+
+    document.getElementById("volver-administrativo").addEventListener("click", function() {
+      document.getElementById("administrativo").style.display = "block";
+      document.getElementById("horario").style.display = "none";
+      document.getElementById("registrar-btn").style.display = "none";
+    });
+
+    document.getElementById("mostrar-general").addEventListener("click", function() {
+      document.getElementById("administrativo").style.display = "none";
+      document.getElementById("general").style.display = "block";
+      document.getElementById("registrar-btn").style.display = "none";
+    });
+
+    document.getElementById("mostrar-horario").addEventListener("click", function() {
+      document.getElementById("horario").style.display = "block";
+      document.getElementById("administrativo").style.display = "none";
+      document.getElementById("registrar-btn").style.display = "block";
+      document.getElementById("cargar").textContent = "Actualizar (sin usuario)";
+    });
+
+    document.getElementById("volver-horario").addEventListener("click", function() {
+      document.getElementById("horario").style.display = "block";
+      document.getElementById("usuario").style.display = "none";
+      document.getElementById("registrar-btn").style.display = "block";
+      document.getElementById("cargar").textContent = "Actualizar (sin usuario)";
+    });
+
+    document.getElementById("mostrar-usuario").addEventListener("click", function() {
+      document.getElementById("usuario").style.display = "block";
+      document.getElementById("horario").style.display = "none";
+      document.getElementById("registrar-btn").style.display = "block";
+      document.getElementById("cargar").textContent = "Actualizar";
+      document.getElementById("Usuario").value = `${document.getElementById("email").value.split("@")[0] || ''}`;
+    });
+  </script>
+</body>
+</html>
