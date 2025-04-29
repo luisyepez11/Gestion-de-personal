@@ -256,13 +256,10 @@
                     </div>
                 </div>
               </div><br>
-              <div>
+              <div class="text-center">
                 <button type="button" id="volver-administrativo" class="switch"><i class="fas fa-long-arrow-alt-left"></i> Datos Administrativos</button>
-                <button type="button" id="mostrar-usuario" class="switch" style="float: right;">Usuario y contraseña <i class="fas fa-long-arrow-alt-right"></i></button>
+                <button type="submit" id="cargar" class="btn-hospital">Registrar</button>
               </div>
-            </div>            
-            <div id="registrar-btn" class="text-center mt-3" style="display: none; margin-top: 10vh !important;">
-              <button type="submit" id="cargar">Registrar</button>
             </div>
           </form>
 
@@ -282,8 +279,7 @@
             <input type="text" class="form-control" id="descripcion-especialidad" name="descripcion-especialidad" required>
             <button type="submit" id="confirmar-especialidad" class="btn-hospital-small">Confirmar</button>
             <button type="button" id="cancelar-especialidad" class="btn-hospital-small">Cancelar</button>
-        </dialog>
-        </div>
+          </dialog>
       </main>
     </div>
   </div>
@@ -301,47 +297,39 @@
             }
             
             if (user.usuario != 'administrador') {
-              document.getElementById('mostrar-usuario').setAttribute('disabled', 'disabled');
+              // Mantenemos esta función por si se necesita en el futuro
+              // para habilitar la sección de usuario y contraseña
             }
         });
         
     document.getElementById("mostrar-administrativo").addEventListener("click", function() {
       document.getElementById("administrativo").style.display = "block";
       document.getElementById("general").style.display = "none";
-      document.getElementById("registrar-btn").style.display = "none";
     });
 
     document.getElementById("volver-administrativo").addEventListener("click", function() {
       document.getElementById("administrativo").style.display = "block";
       document.getElementById("horario").style.display = "none";
-      document.getElementById("registrar-btn").style.display = "none";
     });
 
     document.getElementById("mostrar-general").addEventListener("click", function() {
       document.getElementById("administrativo").style.display = "none";
       document.getElementById("general").style.display = "block";
-      document.getElementById("registrar-btn").style.display = "none";
     });
 
     document.getElementById("mostrar-horario").addEventListener("click", function() {
       document.getElementById("horario").style.display = "block";
       document.getElementById("administrativo").style.display = "none";
-      document.getElementById("registrar-btn").style.display = "block";
     });
 
-    document.getElementById("volver-horario").addEventListener("click", function() {
-      document.getElementById("horario").style.display = "block";
-      document.getElementById("usuario").style.display = "none";
-      document.getElementById("registrar-btn").style.display = "block";
-    });
-
-    document.getElementById("mostrar-usuario").addEventListener("click", function() {
+    // Mantenemos esta función por si se necesita en el futuro
+    /* 
+    function mostrarUsuario() {
       document.getElementById("usuario").style.display = "block";
       document.getElementById("horario").style.display = "none";
-      document.getElementById("registrar-btn").style.display = "block";
-      document.getElementById("cargar").textContent = "Registrar";
       document.getElementById("Usuario").value = `${document.getElementById("email").value.split("@")[0] || ''}`;
-    });
+    }
+    */
   </script>
 </body>
 </html>
