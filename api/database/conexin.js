@@ -4,14 +4,15 @@ const db = mysql.createConnection(
     {
         host:'localhost',
         user:'root',
-        password:'Perla15052015*',
-        database:'hosp'
+        password:'v11g06tr',
+        database:'sistema_gestion_hospitalaria',
+        port: 3306
     }
 );
 db.connect((err)=>{
     if(err){
         throw err;
     }
-    console.log('se logroooo')
+    console.log('Conectado a la base de datos')
 })
 module.exports=db;

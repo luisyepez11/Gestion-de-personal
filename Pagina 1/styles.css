@@ -6,16 +6,17 @@ body {
 }
 
 .sidebar {
-    background-color: #007bff;
-    color: #fff;
-    padding: 20px;
-    height: 100vh;
-    position: fixed;
+  background-color: #00489b !important;
+  color: #fff;
+  padding: 20px;
+  height: 100vh;
+  position: fixed;
+  max-width: 16vw;
 }
 
-.sidebar h2 {
-    font-size: 4vh;
-    margin: 1.5rem auto;
+.sidebar img {
+  margin-bottom: 2.5vh;
+  max-width: 13vw;
 }
 
 .sidebar a {
@@ -85,7 +86,7 @@ nav .fas {
 }
 
 .table th {
-  background-color: #007bff;
+  background-color: #00489b !important;
   color: #fff;
 }
 
@@ -114,7 +115,7 @@ nav .fas {
 }
 
 .btn-hospital {
-  background-color: #1d77d6;
+  background-color: #00489b !important;
   border: none;
   padding: 10px 20px;
   color: #fff;
@@ -135,7 +136,6 @@ dialog {
   border-radius: 12px;
   background-color: #ffffff;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
-  color: #007bff;
   font-family: "Nunito Sans", sans-serif;
 }
 
@@ -144,11 +144,12 @@ dialog::backdrop {
   backdrop-filter: blur(2px);
 }
 
-dialog h2 {
+dialog h3 {
+  text-align: center;
   font-size: 1.6rem;
   margin-bottom: 1.5rem;
   font-weight: bold;
-  color: #007bff;
+  color: #1d3a79;
   border-bottom: 1px solid #cde3ec;
   padding-bottom: 10px;
 }
@@ -167,10 +168,12 @@ dialog p {
 }
 
 dialog button {
+  background-color: rgb(197, 207, 218);
   padding: 10px 25px;
   border-radius: 8px;
   font-size: 1rem;
   font-weight: 600;
+  width: 49%;
   cursor: pointer;
   transition: all 0.3s ease;
   border: none;
@@ -235,4 +238,10 @@ dialog .message.success {
 
 #tituloTabla {
     margin-bottom: 2.5vh;
+}
+
+.btn-hospital-small {
+  width: 32.6% !important;
+  padding: none;
+  text-align: center !important;
 }

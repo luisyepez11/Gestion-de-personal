@@ -13,21 +13,19 @@
     <div class="container-fluid">
         <div class="row">
             <nav class="col-md-2 d-none d-md-block sidebar">
-                <h2>Navegador</h2>
-                <i class="fas fa-home"></i><a href="#"> Inicio</a><br>
-                <i class="fas fa-users"></i><a href="#"> Gestión de Personal</a><br>
-                <i class="fas fa-vial"></i><a href="#"> Laboratorio</a><br>
-                <i class="fas fa-boxes"></i><a href="#"> Inventario</a><br>
-                <i class="fas fa-shopping-cart"></i><a href="../../modulo_compras/views/index.html" class="active"> Compras</a><br>
-                <i class="fas fa-tooth"></i><a href="#"> Consultas Odontológicas</a><br>
-                <i class="fas fa-stethoscope"></i><a href="#"> Consultas Médicas</a><br>
-                <i class="fas fa-file-invoice-dollar"></i><a href="../../modulo_administracion/views/index.html"> Administración</a><br>
-                <i class="fas fa-procedures"></i><a href="#"> Hospitalización</a><br>
-                <i class="fas fa-tools"></i><a href="#"> Mantenimiento</a><br>
-                <i class="fas fa-calendar-check"></i><a href="#"> Gestión de Citas</a><br>
-                <div class="bottom-links">
-                    <i class="fas fa-question-circle"></i><a href="#"> Help</a>
-                </div>
+                <img src="../../inicio/assets/alternative-logo.jpg" alt="Grey + Sloan Memorial Hospital"><br>
+                <i class="fas fa-home"></i><a href="../../inicio/views/dashboard.html"> Inicio</a>
+                <div id="10"><i class="fas fa-users"></i><a href="#"> Gestión de Personal</a></div>
+                <div id="4"><i class="fas fa-vial"></i><a href="#"> Laboratorio</a></div>
+                <div id="3"><i class="fas fa-boxes"></i><a href="#"> Inventario</a></div>
+                <div id="1"><i class="fas fa-shopping-cart"></i><a href="../../modulo_compras/views/index.html"> Compras</a></div>
+                <div id="6"><i class="fas fa-tooth"></i><a href="http://localhost:3002/consultas-odontologicas"> Consultas Odontológicas</a></div>
+                <div id="7"><i class="fas fa-stethoscope"></i><a href="#"> Consultas Médicas</a></div>
+                <div id="9"><i class="fas fa-file-invoice-dollar"></i><a href="../../modulo_administracion/views/index.html"> Administración</a></div>
+                <div id="5"><i class="fas fa-procedures"></i><a href="#"> Hospitalización</a></div>
+                <div id="2"><i class="fas fa-tools"></i><a href="#"> Mantenimiento</a></div>
+                <div id="8"><i class="fas fa-calendar-check"></i><a href="#"> Gestión de Citas</a></div>
+                <i class="fas fa-external-link-square-alt"></i><a href="../../inicio/views/index.html"> Cerrar Sesión</a>
             </nav>
             
             <main role="main" class="col-md-10 ml-sm-auto col-lg-10 px-md-5 pt-4">
@@ -35,42 +33,89 @@
                     <h1>Gestión de Personal</h1>
                     <hr>
                     <dialog id="ventana rol">
-                        <label for="nombre rol">Nombre del Rol</label>
+                        <h3>Registro de Profesiones</h3>
+                        <label for="nombre rol">Nombre</label>
                         <input type="text" class="form-control" id="nombre rol" name="nombre rol" required>
-                        <label for="descripcion rol">descripcion del Rol</label>
+                        <label for="descripcion rol">Descripción</label>
                         <input type="text" class="form-control" id="descripcion rol" name="descripcion rol" required>
-                        <button id="confirmar rol" class="btn-hospital-small">Confirmar</button><button id="cancelar rol" class="btn-hospital-small">Cancelar</button>
+                        <button id="confirmar rol" class="btn-hospital-small" style="width: 49% !important;">Confirmar</button>
+                        <button id="cancelar rol" class="btn-hospital-small" style="width: 49% !important;">Cancelar</button>
                     </dialog>
+
                     <dialog id="ventana especialidad">
-                        <label for="nombre group">Nombre de especialidad</label>
+                        <h3>Registro de Especialidades</h3>
+                        <label for="nombre group">Nombre</label>
                         <input type="text" class="form-control" id="nombre especialidad" name="nombre especialidad" required>
-                        <label for="descripcion especialidad">descripcion de la especialidad</label>
+                        <label for="descripcion especialidad">Descripción</label>
                         <input type="text" class="form-control" id="descripcion especialidad" name="descripcion especialidad" required>
-                        <button id="confirmar especialidad" class="btn-hospital-small">Confirmar</button><button id="cancelar especialidad" class="btn-hospital-small">Cancelar</button>
+                        <button id="confirmar especialidad" class="btn-hospital-small" style="width: 49% !important;">Confirmar</button>
+                        <button id="cancelar especialidad" class="btn-hospital-small" style="width: 49% !important;">Cancelar</button>
                     </dialog>
+
+                    <dialog id="ventana actualizar rol">
+                        <h3>Actualización de Profesiones</h3>
+                        <label for="nombre  actualizacion rol">Rol</label>
+                        <input type="text" class="form-control" id="nombre actualizacion rol" name="nombre rol" required>
+                        <label for="descripcion rol">Descripción</label>
+                        <input type="text" class="form-control" id="descripcion actualizacion rol" name="descripcion actualizacion rol" required>
+                        <button id="confirmar actualizacion rol" class="btn-hospital-small" style="width: 49% !important;">Confirmar</button>
+                        <button id="cancelar actualizacion rol" class="btn-hospital-small" style="width: 49% !important;">Cancelar</button>
+                    </dialog>
+
+                    <dialog id="ventana actualizacion especialidad">
+                        <h3>Actualización de Especialidades/h3>
+                        <label for="nombre group">Especialidad</label>
+                        <input type="text" class="form-control" id="nombre actualizacion especialidad" name="nombre actualizacion especialidad" required>
+                        <label for="descripcion actualizacion especialidad">Descripción</label>
+                        <input type="text" class="form-control" id="descripcion actualizacion especialidad" name="descripcion actualizacion especialidad" required>
+                        <button id="confirmar actualizacion especialidad" class="btn-hospital-small" style="width: 49% !important;">Confirmar</button>
+                        <button id="cancelar actualizacion especialidad" class="btn-hospital-small" style="width: 49% !important;">Cancelar</button>
+                    </dialog>
+
+                    <dialog id="ventana gestion especialidad" style="width: 32vw;">
+                        <h3>Gestión de Especialidades</h3>
+                        <label for="especialidad">Especialidad</label>
+                        <select class="form-control" id="especialidad"></select>
+                        
+                        <button class="btn-hospital-small" id="cargar especialidad">Registrar</button>
+                        <button class="btn-hospital-small" id="actualizar especialidad"> Actualizar</button>
+                        <button onclick="document.getElementById('ventana gestion especialidad').close();" class="btn-hospital-small">Cerrar</button>
+                    </dialog>
+
+                    <dialog id="ventana gestion rol" style="width: 30vw;">
+                        <h3>Gestión de Profesiones</h3>
+                        <label for="rol">Profesiones</label>
+                        <select class="form-control" id="rol"></select>
+                        <button class="btn-hospital-small" id="agregar rol">Registrar</button>
+                        <button class="btn-hospital-small" id="actualizar rol">Actualizar</button>
+                        <button onclick="document.getElementById('ventana gestion rol').close();" class="btn-hospital-small">Cerrar</button>
+                    </dialog>
+
                     <dialog id="Eliminar">
                         <p>¿Está seguro de que desea eliminar?</p>
                         <button id="aceptar" class="btn btn-hospital">Confirmar</button><button id="cancelar" class="btn btn-hospital">Cancelar</button>
                     </dialog>
-                    <!-- pago nomina -->
-                    <dialog id="ventana pago">
+                    
+                    <dialog id="ventana-pago">
                     </dialog>
                     <div class="d-flex justify-content-between align-items-center mb-4">
                         <div class="input-group mb-3">
-                            <input type="text" class="form-control" placeholder="Buscar empleados...">
+                            <input type="text" class="form-control" id="search-bar" placeholder="Buscar empleados...">
                             <div class="input-group-append">
                                 <span class="input-group-text"><i class="fas fa-search"></i></span>
                             </div>
                         </div>
                     </div>
+
                     <div class='tabs mb-4'>
                         <button class="btn-hospital" onclick="window.location.href='../Pagina 2/Registro.html'"><i class="fas fa-user-plus mr-2"></i> Registrar Empleado</button>
-                        <button class="btn-hospital" id="agregar rol">Registrar Rol</button>
-                        <button class="btn-hospital"  id="cargar especialidad">Registrar Departamento</button>
+                        <button class="btn-hospital" id="gestor rol" onclick="document.getElementById('ventana gestion rol').showModal();"><i class="fas fa-briefcase"></i> Gestión de Profesiones</button>
+                        <button class="btn-hospital" id="gestor especialidad" onclick="document.getElementById('ventana gestion especialidad').showModal();"><i class="fas fa-laptop"></i> Gestión de Especialidades</button>
+                        <button class="btn-hospital" id="solicitar-requisitoria" style="float: right; margin-right: 0px !important;"><i class="fas fa-folder"></i> Solicitud de Requisitoria</button>
                     </div>
                     <div class="card shadow-sm p-3">
                         <div class="table-responsive">
-                            <h2 id="tituloTabla">Personal Registrado</h2>
+                            <h2 id="tituloTabla">Personal</h2>
                             <table class="table table-striped" id="tablaEmpleados">
                                 <thead >
                                     <tr>
@@ -78,7 +123,7 @@
                                         <th>Apellido</th>
                                         <th>Cédula</th>
                                         <th>Teléfono</th>
-                                        <th>Rol</th>
+                                        <th>Profesión</th>
                                         <th>Acciones</th>
                                     </tr>
                                 </thead>
@@ -92,218 +137,375 @@
             </main>
         </div>
     </div>
-
     <script>
         document.addEventListener("DOMContentLoaded", async () => {
+            cargar();
+            const user = JSON.parse(localStorage.getItem('user'));
+            for (let i = 1; i <= 10; i++) {
+                if (!user.modulos.includes(String(i))) {
+                    document.getElementById(`${i}`).style.display = 'none';
+                }
+            }   
             try {
                 const res = await fetch("http://localhost:6500/empleados");
                 const data = await res.json();
                 const tabla = document.querySelector("#tablaEmpleados tbody");
                 data.rows.forEach(emp => {
-                    const row = document.createElement("tr");
-                    const nombre=document.createElement("td");
-                    nombre.textContent=emp.nombre;
-                    const apellido=document.createElement("td");
-                    apellido.textContent=emp.apellido;
-                    const cedula=document.createElement("td");
-                    cedula.textContent=emp.cedula;
-                    const telefono=document.createElement("td");
-                    telefono.textContent=emp.telefono;
-                    const rol=document.createElement("td");
-                    rol.textContent=emp.nombre_rol;
-                    // 
-                    const Acciones=document.createElement("td");
-                    const boton=document.createElement("button");
-                    boton.className="btn btn-sm btn-warning text-white"
-                    const i=document.createElement("i");
-                    i.className="fas fa-edit"
-                    boton.appendChild(i)
-                    boton.addEventListener("click",()=>{
-                    localStorage.setItem("cedula", emp.empleado_id);
-                    window.location.href = "../Pagina3/ActualizarRegistro.html";
-                    console.log("i funcione")
-                    })
-                    Acciones.appendChild(boton)
+                    if (emp.estado != 'Inactivo') {
+                        const row = document.createElement("tr");
+                        const nombre=document.createElement("td");
+                        nombre.textContent=emp.nombre;
+                        const apellido=document.createElement("td");
+                        apellido.textContent=emp.apellido;
+                        const cedula=document.createElement("td");
+                        cedula.textContent=emp.cedula;
+                        const telefono=document.createElement("td");
+                        telefono.textContent=emp.telefono;
+                        const rol=document.createElement("td");
+                        rol.textContent=emp.nombre_rol;
+                        // 
+                        const Acciones=document.createElement("td");
+                        const boton=document.createElement("button");
+                        boton.className="btn btn-sm btn-warning text-white"
+                        const i=document.createElement("i");
+                        i.className="fas fa-edit"
+                        boton.appendChild(i)
+                        boton.addEventListener("click",()=>{
+                        localStorage.setItem("cedula", emp.empleado_id);
+                        window.location.href = "../Pagina3/ActualizarRegistro.html";
+                        })
+                        Acciones.appendChild(boton)
 
-                    const boton2=document.createElement("button");
-                    boton2.className="btn btn-sm btn-danger"
-                    const i2=document.createElement("i");
-                    i2.className="fas fa-trash-alt"
-                    boton2.appendChild(i2)
-                    boton2.addEventListener("click",()=>{
-                        document.getElementById("Eliminar").innerHTML = '';
-                        const p = document.createElement("label")
-                        p.textContent=`¿Está seguro de que desea eliminar a ${emp.nombre}?`
-                        const aceptar=document.createElement("button")
-                        aceptar.textContent="Confirmar"
-                        aceptar.id="ba"+emp.cedula
-                        aceptar.className="btn btn-hospital"
-                        aceptar.addEventListener("click",async()=>{
-                            try {
-                            const deleteResponse = await fetch(`http://localhost:6500/empleados/${emp.empleado_id}`, {
-                                method: 'DELETE'
-                            });
+                        const boton2=document.createElement("button");
+                        boton2.className="btn btn-sm btn-danger"
+                        const i2=document.createElement("i");
+                        i2.className="fas fa-trash-alt"
+                        boton2.appendChild(i2)
+                        boton2.addEventListener("click",()=>{
+                            document.getElementById("Eliminar").innerHTML = '';
+                            const p = document.createElement("label")
+                            p.textContent=`¿Está seguro de que desea eliminar a ${emp.nombre} ${emp.apellido}?`
+                            const aceptar=document.createElement("button")
+                            aceptar.textContent="Confirmar"
+                            aceptar.id="ba"+emp.cedula
+                            aceptar.addEventListener("click",async()=>{
+                                try {
+                                const deleteResponse = await fetch(`http://localhost:6500/empleados/${emp.empleado_id}`, {
+                                    method: 'DELETE'
+                                });
+                                
+                                if (!deleteResponse.ok) {
+                                    const errorData = await deleteResponse.json();
+                                    console.error('Error del servidor:', errorData);
+                                    throw new Error(`Error ${deleteResponse.status}: ${errorData.error || 'Error desconocido'}`);
+                                }
+                                
+                                const result = await deleteResponse.json();
+                                console.log('Eliminación exitosa:', result);
+                                } catch (error) {
+                                console.error('Error al eliminar empleado:', error);
+                                }
+                                location.reload();
+                            })
+                            const cancelar=document.createElement("button")
+                            cancelar.id="bc"+cedula
+                            cancelar.textContent="Cancelar"
+                            cancelar.addEventListener("click",()=>{
+                                document.getElementById("Eliminar").close();;
+                            })
+                            const br =document.createElement("br")
+                            const centrar=document.createElement("div");
+                            centrar.style.display="flex";
+                            centrar.style.gap="4px";
+                            centrar.append(aceptar,cancelar)
+                            document.getElementById("Eliminar").append(p,br,centrar)
+                            document.getElementById("Eliminar").showModal();
+                        })
+                        
+                        Acciones.appendChild(boton2)
+
+                        const botonDolar = document.createElement("button");
+                        botonDolar.className = "btn btn-sm btn-success"; 
+                        const iconoDolar = document.createElement("i");
+                        iconoDolar.className = "fas fa-dollar-sign";     
+                        botonDolar.appendChild(iconoDolar);
+                        botonDolar.addEventListener("click",()=>{
+                            document.getElementById("ventana-pago").showModal()
+                            document.getElementById("ventana-pago").innerHTML = '';
+                            const h3 = document.createElement("h3");
+                            h3.textContent = "Registro de Pago de Nómina";
+                            const p = document.createElement("p");
+                            p.textContent=`Empleado: ${emp.nombre} ${emp.apellido}`;
+                            const centrar=document.createElement("div");
+                            centrar.style.display="flex";
+                            centrar.style.gap="4px";
+                            const aceptar=document.createElement("button");
+                            aceptar.textContent="Confirmar";
+                            aceptar.id="bn"+emp.cedula;
+                            const cancelar=document.createElement("button");
+                            cancelar.textContent="Cancelar";
+                            cancelar.id="nc"+emp.cedula;
+                            cancelar.addEventListener("click",()=>{
+                                document.getElementById("ventana-pago").close()
+                            })
+                            const Concepto=document.createElement("input")
+                            Concepto.type="text"
+                            Concepto.className="form-control"
+                            const monto=document.createElement("input")
+                            monto.type="number"
+                            monto.value=emp.sueldo
+                            monto.className="form-control"
+                            centrar.append(aceptar,cancelar)
+                            const label1=document.createElement("label")
+                            label1.textContent="Concepto de pago"
+                            const label2=document.createElement("label")
+                            label2.textContent="Monto total ($)"
+                            document.getElementById("ventana-pago").append(h3,p,label1,Concepto,label2,monto,centrar)
+                            aceptar.addEventListener("click",async()=>{
+                            document.getElementById("ventana-pago").close()
+                            const fecha_pago=new Date().toLocaleDateString('en-CA');
+                            const id=emp.empleado_id
+                            const concepto = Concepto.value;
+                            const montos = monto.value;
+                            const rolData = {
+                                fecha_pago: fecha_pago,
+                                empleado_id: id,
+                                concepto: concepto,
+                                monto: montos,
+                            };
                             
-                            if (!deleteResponse.ok) {
-                                const errorData = await deleteResponse.json();
-                                console.error('Error del servidor:', errorData);
-                                throw new Error(`Error ${deleteResponse.status}: ${errorData.error || 'Error desconocido'}`);
-                            }
-                            
-                            const result = await deleteResponse.json();
-                            console.log('Eliminación exitosa:', result);
-                            } catch (error) {
-                            console.error('Error al eliminar empleado:', error);
-                            }
-                            const deletenomina = await fetch(`http://localhost:6500/pago_empleado/${emp.empleado_id}`, {
-                                method: 'DELETE',
+                            const postResponse = await fetch('http://localhost:6500/pago_empleado', {
+                                method: 'POST',
                                 headers: {
                                     'Content-Type': 'application/json',
                                 },
-                            });
-                            location.reload();
+                                body: JSON.stringify(rolData)
+                                })
+                            });                    
                         })
-                        const cancelar=document.createElement("button")
-                        cancelar.id="bc"+cedula
-                        cancelar.className="btn btn-hospital"
-                        cancelar.textContent="Cancelar"
-                        cancelar.addEventListener("click",()=>{
-                            document.getElementById("Eliminar").close();;
-                        })
-                        const br =document.createElement("br")
-                        const centrar=document.createElement("center")
-                        centrar.append(aceptar,cancelar)
-                        document.getElementById("Eliminar").append(p,br,centrar)
-                        document.getElementById("Eliminar").showModal();
-                    })
-                    
-                    Acciones.appendChild(boton2)
-
-                    const botonDolar = document.createElement("button");
-                    botonDolar.className = "btn btn-sm btn-success"; 
-                    const iconoDolar = document.createElement("i");
-                    iconoDolar.className = "fas fa-dollar-sign";     
-                    botonDolar.appendChild(iconoDolar);
-                    botonDolar.addEventListener("click",()=>{
-                        document.getElementById("ventana pago").showModal()
-                        document.getElementById("ventana pago").innerHTML = '';
-                        const p = document.createElement("label")
-                        p.textContent=`Pago de nomina del empleado ${emp.nombre}`
-                        const centrar=document.createElement("center")
-                        const aceptar=document.createElement("button")
-                        aceptar.textContent="Confirmar"
-                        aceptar.id="bn"+emp.cedula
-                        aceptar.className="btn btn-hospital"
-                        const cancelar=document.createElement("button")
-                        cancelar.textContent="Cancelar"
-                        cancelar.id="nc"+emp.cedula
-                        cancelar.className="btn btn-hospital"
-                        cancelar.addEventListener("click",()=>{
-                            document.getElementById("ventana pago").close()
-                        })
-                        const Concepto=document.createElement("input")
-                        Concepto.type="text"
-                        Concepto.className="form-control"
-                        const monto=document.createElement("input")
-                        monto.type="number"
-                        monto.value=emp.sueldo
-                        monto.className="form-control"
-                        centrar.append(aceptar,cancelar)
-                        const label1=document.createElement("label")
-                        label1.textContent="Ingrese concepto de pago"
-                        const label2=document.createElement("label")
-                        label2.textContent="Ingrese monto"
-                        document.getElementById("ventana pago").append(p,label1,Concepto,label2,monto,centrar)
-                        aceptar.addEventListener("click",async()=>{
-                        document.getElementById("ventana pago").close()
-                        const fecha_pago=new Date().toLocaleDateString('en-CA');
-                        const id=emp.empleado_id
-                        const concepto = Concepto.value;
-                        const montos = monto.value;
-                        const rolData = {
-                            fecha_pago: fecha_pago,
-                            empleado_id: id,
-                            concepto: concepto,
-                            monto: montos,
-                        };
-                        
-                        const postResponse = await fetch('http://localhost:6500/pago_empleado', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                            },
-                            body: JSON.stringify(rolData)
-                        });
-                                            })
-                    })
-                    Acciones.appendChild(botonDolar)
-                    row.append(nombre,apellido,apellido,cedula,telefono,rol,Acciones)
-                    tabla.appendChild(row);
+                        Acciones.appendChild(botonDolar)
+                        row.append(nombre,apellido,apellido,cedula,telefono,rol,Acciones)
+                        tabla.appendChild(row);
+                    }
                 });
+                    
             } catch (error) {
                 console.error("Error al cargar empleados:", error);
             }
+
+            document.getElementById('search-bar').addEventListener('input', (event) => {
+                const searchTerm = event.target.value.toLowerCase();
+                const table = document.getElementById('tablaEmpleados');
+                const rows = table.getElementsByTagName('tr');
+            
+                for (let i = rows.length - 1; i > 0; i--) {
+                    const cells = rows[i].getElementsByTagName('td');
+                    let rowContainsSearchTerm = false;
+            
+                    for (let j = 0; j < cells.length; j++) {
+                        const cellText = cells[j].textContent.toLowerCase();
+                        if (cellText.includes(searchTerm)) {
+                            rowContainsSearchTerm = true;
+                            break;
+                        }
+                    }
+            
+                    if (rowContainsSearchTerm) {
+                        rows[i].style.display = ''; // Muestra la fila
+                    } else {
+                        rows[i].style.display = 'none'; // Oculta la fila
+                    }
+                }
+            });
         });
         // agregar especialidad y roles
         document.getElementById("agregar rol").addEventListener("click", () => {
-    document.getElementById("ventana rol").showModal();
-});
+            document.getElementById("ventana rol").showModal();
+        });
 
-document.getElementById("cargar especialidad").addEventListener("click", () => {
-    document.getElementById("ventana especialidad").showModal();
-});
+        document.getElementById("cargar especialidad").addEventListener("click", () => {
+            document.getElementById("ventana especialidad").showModal();
+        });
 
-document.getElementById("confirmar rol").addEventListener("click", async () => {
-    document.getElementById("ventana rol").close();
-    const nombre = document.getElementById("nombre rol").value;
-    const descripcion = document.getElementById("descripcion rol").value;
-    const rolData = {
-        nombre: nombre,
-        descripcion: descripcion,
-    };
-    
-    const postResponse = await fetch('http://localhost:6500/roles', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(rolData)
-    });
-    
-    document.getElementById("nombre rol").value = '';
-    document.getElementById("descripcion rol").value = '';
-});
+        document.getElementById("confirmar rol").addEventListener("click", async () => {
+            document.getElementById("ventana rol").close();
+            document.getElementById('ventana gestion rol').close();
+            document.getElementById('ventana actualizar rol').close();
+            const nombre = document.getElementById("nombre rol").value;
+            const descripcion = document.getElementById("descripcion rol").value;
+            const rolData = {
+                nombre: nombre,
+                descripcion: descripcion,
+            };
+            location.reload();
+            const postResponse = await fetch('http://localhost:6500/roles', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(rolData)
+            });
+            
+            document.getElementById("nombre rol").value = '';
+            document.getElementById("descripcion rol").value = '';
+            
+        });
 
-document.getElementById("confirmar especialidad").addEventListener("click", async () => {
-    document.getElementById("ventana especialidad").close();
-    const nombre = document.getElementById("nombre especialidad").value;
-    const descripcion = document.getElementById("descripcion especialidad").value;
-    const especialidadData = {
-        nombre: nombre,
-        descripcion: descripcion,
-    };
-    
-    const postResponse = await fetch('http://localhost:6500/especialidades', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(especialidadData)
-    });
-    
-    
-    document.getElementById("nombre especialidad").value = '';
-    document.getElementById("descripcion especialidad").value = '';
-});
-document.getElementById("cancelar rol").addEventListener("click",()=>{
-    document.getElementById("ventana rol").close();
-})
-document.getElementById("cancelar especialidad").addEventListener("click",()=>{
-    document.getElementById("ventana especialidad").close();
-})
-document.getElementById("cancelar pago").addEventListener("click",()=>{
-    document.getElementById("ventana pago").close();
-})
+        document.getElementById("confirmar especialidad").addEventListener("click", async () => {
+            document.getElementById("ventana especialidad").close();
+            document.getElementById('ventana gestion especialidad').close();
+            document.getElementById('ventana actualizacion especialidad').close();
+            const nombre = document.getElementById("nombre especialidad").value;
+            const descripcion = document.getElementById("descripcion especialidad").value;
+            const especialidadData = {
+                nombre: nombre,
+                descripcion: descripcion,
+            };
+            location.reload();
+            const postResponse = await fetch('http://localhost:6500/especialidades', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(especialidadData)
+            });
+            
+            document.getElementById("nombre especialidad").value = '';
+            document.getElementById("descripcion especialidad").value = '';
+        });
+
+        document.getElementById("cancelar rol").addEventListener("click",()=>{
+            document.getElementById("ventana rol").close();
+        });
+        
+        document.getElementById("cancelar especialidad").addEventListener("click",()=>{
+            document.getElementById("ventana especialidad").close();
+        });
+
+        document.getElementById("solicitar-requisitoria").addEventListener("click", () => {
+            window.location.href = "../../modulo_compras/views/requirementrequest.html";
+        });
+
+        async function cargar() {
+            try {
+                const response = await fetch("http://localhost:6500/especialidades");
+                const datos = await response.json();
+                const especialidades = document.getElementById("especialidad");
+                especialidades.innerHTML = '';
+                datos.forEach(element => {
+                    const campos = document.createElement("option");
+                    campos.value = element.departamento_id;
+                    campos.textContent = element.nombre;
+                    especialidades.append(campos);
+                });
+
+            } catch(error) {
+                console.error('Error al cargar especialidades:', error);
+                mostrarError('Error al cargar las especialidades');
+            }
+
+            try {
+                const response = await fetch("http://localhost:6500/roles");
+                const datos = await response.json();
+                const roles = document.getElementById("rol");
+                roles.innerHTML = '';
+                datos.forEach(element => {
+                    const campos = document.createElement("option");
+                    campos.value = element.rol_id;
+                    campos.textContent = element.nombre;
+                    roles.append(campos);
+                });
+            } catch(error) {
+                console.error('Error al cargar roles:', error);
+                mostrarError('Error al cargar los roles');
+            }
+        }
+
+        document.getElementById("actualizar especialidad").addEventListener("click",async()=>{
+            const id= document.getElementById("especialidad").value
+            const response  = await fetch(`http://localhost:6500/especialidades/${id}`);
+            const data = await response.json();
+            console.log(data.data)
+            document.getElementById('nombre actualizacion especialidad').value= data.data.nombre
+            document.getElementById('descripcion actualizacion especialidad').value= data.data.descripcion
+            document.getElementById('ventana actualizacion especialidad').showModal();
+        });
+
+        document.getElementById("confirmar actualizacion especialidad").addEventListener("click",async ()=>{
+            const id= document.getElementById("especialidad").value
+            const nombre=document.getElementById("nombre actualizacion especialidad").value
+            const descripcion=document.getElementById("descripcion actualizacion especialidad").value
+            document.getElementById('ventana gestion especialidad').close();
+            document.getElementById('ventana actualizacion especialidad').close();
+            const Data = {
+                id: id,  
+                nombre: nombre,
+                descripcion: descripcion
+            };
+
+                const putResponse = await fetch(`http://localhost:6500/especialidades/${id}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(Data)
+                });
+
+                if (!putResponse.ok) {
+                    throw new Error('Error al Actualizado empleado');
+                }
+
+                const result = await putResponse.json();
+                location.reload();
+        });
+
+        document.getElementById("cancelar actualizacion especialidad").addEventListener("click",()=>{
+            document.getElementById('ventana gestion especialidad').close();
+            document.getElementById('ventana actualizacion especialidad').close();
+        });
+
+        document.getElementById("actualizar rol").addEventListener("click",async()=>{
+            const id= document.getElementById("rol").value
+            const response  = await fetch(`http://localhost:6500/roles/${id}`);
+            const data = await response.json();
+            console.log(data.data)
+            document.getElementById('nombre actualizacion rol').value= data.data.nombre
+            document.getElementById('descripcion actualizacion rol').value= data.data.descripcion
+            document.getElementById('ventana actualizar rol').showModal();
+        });
+
+        document.getElementById("confirmar actualizacion rol").addEventListener("click",async ()=>{
+            const id= document.getElementById("rol").value
+            const nombre=document.getElementById("nombre actualizacion rol").value
+            const descripcion=document.getElementById("descripcion actualizacion rol").value
+            document.getElementById('ventana gestion rol').close();
+            document.getElementById('ventana actualizar rol').close();
+            const Data = {
+                id: id,  
+                nombre: nombre,
+                descripcion: descripcion
+            };
+
+                const putResponse = await fetch(`http://localhost:6500/roles/${id}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(Data)
+                });
+
+                if (!putResponse.ok) {
+                    throw new Error('Error al Actualizado empleado');
+                }
+
+                const result = await putResponse.json();
+                location.reload();
+        });
+
+        document.getElementById("cancelar actualizacion rol").addEventListener("click",()=>{
+            document.getElementById('ventana gestion rol').close();
+            document.getElementById('ventana actualizar rol').close();
+        });
 
     </script>
 </body>

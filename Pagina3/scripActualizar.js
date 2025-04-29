@@ -5,6 +5,7 @@ let cedula_usuario=""
 let email_usuario=""
 let telefono_usuario=""
 let cedula_enviada=""
+
 // Función para mostrar mensajes de error (desaparece después de 5 segundos)
 function mostrarError(mensaje) {
     // Eliminar errores previos
@@ -270,7 +271,6 @@ async function cargar() {
         console.log(`http://localhost:6500/empleados/${empleado_id}`)
         const data = await response.json();
         const item = data.data
-        console.log(data)
         const nombre=document.getElementById("nombre");
         nombre.value=item.nombre
         const apellido=document.getElementById("apellido");
@@ -301,24 +301,30 @@ async function cargar() {
         especialidad.value=item.departamento_id
 
         const cargo=document.getElementById("cargo");
-        cargo.value=item.cargo
+        cargo.value=item.cargo;
+
         const sueldo=document.getElementById("sueldo");
         sueldo.value=item.sueldo
+
+        const sueldoneto = document.getElementById("sueldo-neto");
+        sueldoneto.value=item.salario_neto
 
         const cuenta=document.getElementById("cuenta");
         cuenta.value=item.numero_cuenta
 
-        const turno=document.getElementById("Turno");
-        turno.value=item.horario.turno
+        cargarTurnos(item.horario.turno);
 
-        const clave=document.getElementById("Clave");
-        clave.value=item.credenciales.clave
+        const area=document.getElementById("area")
+        area.value=item.area;
 
-        marcarDiasSeleccionados(item.horario.dia)
+        const descripcion_empleado=document.getElementById("descripcion_empleado")
+        descripcion_empleado.value=item.descripcion_empleado
 
+
+        marcarDiasSeleccionados(item.horario.dia);
     }catch(error){
-                console.error('Error carga de  empleado:', error);
-                alert('Error cargar el  empleado: ' + error.message);
+        console.error('Error carga de  empleado:', error);
+        alert('Error cargar el  empleado: ' + error.message);
     }
 }
 
@@ -381,6 +387,7 @@ document.getElementById('email').addEventListener('input', validarEmailEnTiempoR
 // Evento principal del botón cargar
 document.getElementById("cargar").addEventListener("click", async () => {
     // Validar primero todos los campos obligatorios
+    event.preventDefault()
     if (!validarCamposObligatorios()) {
         return;
     }
@@ -401,8 +408,10 @@ document.getElementById("cargar").addEventListener("click", async () => {
     const telefono = document.getElementById("telefono").value.trim();
     const rol = document.getElementById("rol").value;
     const especialidad = document.getElementById("especialidad").value;
-    const cargo = document.getElementById("cargo").value.trim();
+    const cargo = document.getElementById("cargo").value;
     const sueldo = document.getElementById("sueldo").value.trim();
+    const sueldoneto = document.getElementById("sueldo-neto").value.trim();
+    const area=document.getElementById("area").value;
     
     // Validar fechas de nacimiento
     const validacionNacimiento = validarFechaNacimiento(fechas_nacimiento);
@@ -451,9 +460,6 @@ document.getElementById("cargar").addEventListener("click", async () => {
     const cedulas = data.rows.filter(item => item.cedula?.toString() != cedula_enviada).map(item => item.cedula.toString());
     const emails = data.rows.filter(item => item.email?.toLowerCase() != email_usuario).map(item => item.email?.toLowerCase()); // Usamos ?. por si email es null
     const telefonos = data.rows.filter(item => item.telefono != telefono_usuario).map(item => item.telefono);
-    console.log(cedulas)
-    console.log(emails)
-    console.log(telefonos)
 
     // 1. Validar cédula única
     if (cedulas.includes(ci.toString())) {
@@ -472,11 +478,11 @@ document.getElementById("cargar").addEventListener("click", async () => {
         mostrarError("Este número de teléfono ya está registrado");
         return;
     }
-    const dia= obtenerDiasSeleccionados()
-    const turno = document.getElementById("Turno").value
+    const dia= obtenerDiasSeleccionados();
+    const turno = obtenerTurnosSeleccionados();
+    const descripcion_empleado=document.getElementById("descripcion_empleado").value
     const cuenta =document.getElementById("cuenta").value;
-    const clave=document.getElementById("Clave").value
-    const usuario=extraerNombreUsuario(email)
+  
 
     const empleadoData = {
         id: empleado_id,  
@@ -492,11 +498,12 @@ document.getElementById("cargar").addEventListener("click", async () => {
         departamento_id: especialidad,
         cargo: cargo,
         sueldo: sueldo,
+        salario_neto: sueldoneto,
         cuenta: cuenta ,
         turno:turno,
         dia:dia,
-        usuario:usuario,
-        clave:clave 
+        area:area,
+        descripcion_empleado:descripcion_empleado
     };
 
         const putResponse = await fetch(`http://localhost:6500/empleados/${empleado_id}`, {
@@ -512,9 +519,10 @@ document.getElementById("cargar").addEventListener("click", async () => {
         }
 
         const result = await putResponse.json();
-        mostrarExito('Empleado Actualizado con éxito');
-        document.querySelector("form").reset();
 
+        if (putResponse.ok) {
+            mostrarExito(`El empleado ${empleadoData.nombre} ${empleadoData.apellido} ha sido actualizado con éxito.`);
+        }
     } catch (error) {
         console.error('Error:', error);
         mostrarError('Error al Actualizar empleado: ' + error.message);
@@ -526,16 +534,18 @@ document.getElementById("cargar").addEventListener("click", async () => {
     
 });
 
-document.getElementById("agregar rol").addEventListener("click",()=>{
-    document.getElementById("ventana rol").showModal()
-})
-document.getElementById("cargar especialidad").addEventListener("click",()=>{
-    document.getElementById("ventana especialidad").showModal()
-})
-document.getElementById("confirmar rol").addEventListener("click", async () => {
-    document.getElementById("ventana rol").close();
-    const nombre = document.getElementById("nombre rol").value;
-    const descripcion = document.getElementById("descripcion rol").value;
+document.getElementById("agregar-rol").addEventListener("click",()=>{
+    document.getElementById("ventana-rol").showModal()
+});
+
+document.getElementById("cargar-especialidad").addEventListener("click",()=>{
+    document.getElementById("ventana-especialidad").showModal()
+});
+
+document.getElementById("confirmar-rol").addEventListener("click", async () => {
+    document.getElementById("ventana-rol").close();
+    const nombre = document.getElementById("nombre-rol").value;
+    const descripcion = document.getElementById("descripcion-rol").value;
     const rolData = {
         nombre: nombre,
         descripcion: descripcion,
@@ -549,14 +559,14 @@ document.getElementById("confirmar rol").addEventListener("click", async () => {
         body: JSON.stringify(rolData)
     });
     cargar()
-    document.getElementById("nombre rol").value = '';
-    document.getElementById("descripcion rol").value = '';
+    document.getElementById("nombre-rol").value = '';
+    document.getElementById("descripcion-rol").value = '';
 });
 
-document.getElementById("confirmar especialidad").addEventListener("click", async () => {
-    document.getElementById("ventana especialidad").close();
-    const nombre = document.getElementById("nombre especialidad").value;
-    const descripcion = document.getElementById("descripcion especialidad").value;
+document.getElementById("confirmar-especialidad").addEventListener("click", async () => {
+    document.getElementById("ventana-especialidad").close();
+    const nombre = document.getElementById("nombre-especialidad").value;
+    const descripcion = document.getElementById("descripcion-especialidad").value;
     const especialidadData = {
         nombre: nombre,
         descripcion: descripcion,
@@ -571,22 +581,27 @@ document.getElementById("confirmar especialidad").addEventListener("click", asyn
     });
     
 });
-document.getElementById("ventana especialidad").addEventListener("close",()=>{
+
+document.getElementById("ventana-especialidad").addEventListener("close",()=>{
     cargar()
-    document.getElementById("nombre especialidad").value = '';
-    document.getElementById("descripcion especialidad").value = '';
-})
-document.getElementById("ventana rol").addEventListener("close",()=>{
+    document.getElementById("nombre-especialidad").value = '';
+    document.getElementById("descripcion-especialidad").value = '';
+});
+
+document.getElementById("ventana-rol").addEventListener("close",()=>{
     cargar()
-    document.getElementById("nombre rol").value = '';
-    document.getElementById("descripcion rol").value = '';
-})
-document.getElementById("cancelar rol").addEventListener("click",()=>{
-    document.getElementById("ventana rol").close();
-})
-document.getElementById("cancelar especialidad").addEventListener("click",()=>{
-    document.getElementById("ventana especialidad").close();
-})
+    document.getElementById("nombre-rol").value = '';
+    document.getElementById("descripcion-rol").value = '';
+});
+
+document.getElementById("cancelar-rol").addEventListener("click",()=>{
+    document.getElementById("ventana-rol").close();
+});
+
+document.getElementById("cancelar-especialidad").addEventListener("click",()=>{
+    document.getElementById("ventana-especialidad").close();
+});
+
 function obtenerDiasSeleccionados() {
     const checkboxes = document.querySelectorAll('.dia-checkbox');
     
@@ -596,12 +611,6 @@ function obtenerDiasSeleccionados() {
     
     return diasSeleccionados.join(', ');
   }
-  
-  document.getElementById('botonGenerar').addEventListener('click', function() {
-    const diasString = obtenerDiasSeleccionados();
-    console.log(diasString);
-    alert(`Días seleccionados: ${diasString || 'Ningún día seleccionado'}`);
-  });
 
 function marcarDiasSeleccionados(diasString) {
     document.querySelectorAll('.dia-checkbox').forEach(checkbox => {
@@ -619,6 +628,24 @@ function marcarDiasSeleccionados(diasString) {
       }
     });
   }
+
+  function marcarModulosSeleccionados(modulosString) {
+    document.querySelectorAll('.modulo').forEach(checkbox => {
+      checkbox.checked = false;
+    });
+  
+    if (!modulosString || modulosString.trim() === '') return;
+  
+    const modulos = modulosString.split(',').map(modulo => modulo.trim());
+
+    modulos.forEach(modulo => {
+      const checkbox = document.querySelector(`.modulo[value="${modulo}"]`);
+      if (checkbox) {
+        checkbox.checked = true;
+      }
+    });
+  }
+
   function extraerNombreUsuario(correo) {
 
     if (typeof correo !== 'string' || !correo.includes('@')) {
@@ -629,3 +656,33 @@ function marcarDiasSeleccionados(diasString) {
 
     return partes[0];
 }
+
+function obtenerTurnosSeleccionados() {
+    const turnos = [];
+    
+    document.querySelectorAll('.dia-turno-item').forEach(item => {
+      const checkbox = item.querySelector('.dia-checkbox');
+      const select = item.querySelector('.turno-select');
+      turnos.push(checkbox.checked ? select.value : "No asiste");
+    });
+    
+    return turnos.join(', ');
+  }
+
+function cargarTurnos(turnosString) {
+    document.querySelectorAll('.dia-checkbox').forEach(cb => cb.checked = false);
+    document.querySelectorAll('.turno-select').forEach(s => s.value = 'No asiste');
+    
+    if (!turnosString?.trim()) return;
+  
+    const dias = ['lunes','martes','miercoles','jueves','viernes','sabado','domingo'];
+    turnosString.split(',').map(t => t.trim()).forEach((t, i) => {
+      if (i >= dias.length) return;
+      const cb = document.getElementById(dias[i]);
+      const sel = document.getElementById(`turno-${dias[i]}`);
+      if (cb && sel) {
+        cb.checked = t !== 'No asiste';
+        sel.value = t;
+      }
+    });
+  }
