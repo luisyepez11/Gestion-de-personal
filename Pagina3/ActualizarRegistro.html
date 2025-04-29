@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Registro de Personal</title>
+  <title>Actualización de Personal</title>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
@@ -256,71 +256,10 @@
                     </div>
                 </div>
               </div><br>
-              <div>
+              <div class="text-center">
                 <button type="button" id="volver-administrativo" class="switch"><i class="fas fa-long-arrow-alt-left"></i> Datos Administrativos</button>
-                <button type="button" id="mostrar-usuario" class="switch" style="float: right;">Usuario y contraseña <i class="fas fa-long-arrow-alt-right"></i></button>
+                <button type="submit" id="cargar" class="btn-hospital">Actualizar</button>
               </div>
-            </div>
-            <div id="usuario" style="display: none;">
-              <div class="form-row">
-                <div class="form-group col-md-6">
-                  <label for="Usuario">Usuario</label>
-                  <input type="text" class="form-control" id="Usuario" name="Usuario" style="width: 70%;" placeholder="Usuario" readonly>
-                  <br><label for="Clave">Contraseña</label>
-                  <input type="password" class="form-control" id="Clave" name="Clave" style="width: 70%;" placeholder="Contraseña">
-                </div>
-                <div class="form-group col-md-6">
-                  <label for="modulos">Módulos</label>
-                  <div>
-                    <div>
-                      <input type="checkbox" id="compras" class="modulo" value="1">
-                      <label for="compras" class="modulo-label">Compras</label>
-                    </div>
-                    <div >
-                      <input type="checkbox" id="mantenimiento" class="modulo" value="2">
-                      <label for="mantenimiento" class="modulo-label">Mantenimiento</label>
-                    </div>
-                    <div >
-                      <input type="checkbox" id="inventario" class="modulo" value="3">
-                      <label for="inventario" class="modulo-label">Inventario</label>
-                    </div>
-                    <div >
-                      <input type="checkbox" id="laboratorio" class="modulo" value="4">
-                      <label for="laboratorio" class="modulo-label">Laboratorio</label>
-                    </div>
-                    <div >
-                      <input type="checkbox" id="hospitalizacion" class="modulo" value="5">
-                      <label for="hospitalizacion" class="modulo-label">Hospitalización</label>
-                    </div>
-                    <div >
-                      <input type="checkbox" id="consulta-odontologica" class="modulo" value="6">
-                      <label for="consulta-odontologica" class="modulo-label">Consultas Odontológicas</label>
-                    </div>
-                    <div  >
-                      <input type="checkbox" id="consulta-medica" class="modulo" value="7">
-                      <label for="consulta-medica" class="modulo-label">Consultas Médicas Generales y Especializadas</label>
-                    </div>
-                    <div  >
-                      <input type="checkbox" id="gestion-citas" class="modulo" value="8">
-                      <label for="gestion-citas" class="modulo-label">Gestión de Citas</label>
-                    </div>
-                    <div  >
-                      <input type="checkbox" id="administracion" class="modulo" value="9">
-                      <label for="administracion" class="modulo-label">Administración</label>
-                    </div>
-                    <div  >
-                      <input type="checkbox" id="gestion-personal" class="modulo" value="10">
-                      <label for="gestion-personal" class="modulo-label">Gestión de Personal</label>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="text-left mt-3">
-                <button type="button" id="volver-horario" class="switch"><i class="fas fa-long-arrow-alt-left"></i> Horario</button>
-              </div>
-            </div>              
-            <div id="registrar-btn" class="text-center mt-3" style="display: none; margin-top: 10vh !important;">
-              <button type="submit" id="cargar">Registrar</button>
             </div>
           </form>
 
@@ -340,8 +279,7 @@
             <input type="text" class="form-control" id="descripcion-especialidad" name="descripcion-especialidad" required>
             <button type="submit" id="confirmar-especialidad" class="btn-hospital-small">Confirmar</button>
             <button type="button" id="cancelar-especialidad" class="btn-hospital-small">Cancelar</button>
-        </dialog>
-        </div>
+          </dialog>
       </main>
     </div>
   </div>
@@ -351,56 +289,32 @@
   <script src="./scripActualizar.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-            const user = JSON.parse(localStorage.getItem('user'));
-            for (let i = 1; i <= 10; i++) {
-                if (!user.modulos.includes(String(i))) {
-                    document.getElementById(`${i}`).style.display = 'none';
-                }
-            }
-            
-            if (user.usuario != 'administrador') {
-              document.getElementById('mostrar-usuario').setAttribute('disabled', 'disabled');
-            }
-        });
-        
+      const user = JSON.parse(localStorage.getItem('user'));
+      for (let i = 1; i <= 10; i++) {
+        if (!user.modulos.includes(String(i))) {
+          document.getElementById(`${i}`).style.display = 'none';
+        }
+      }
+    });
+    
     document.getElementById("mostrar-administrativo").addEventListener("click", function() {
       document.getElementById("administrativo").style.display = "block";
       document.getElementById("general").style.display = "none";
-      document.getElementById("registrar-btn").style.display = "none";
     });
 
     document.getElementById("volver-administrativo").addEventListener("click", function() {
       document.getElementById("administrativo").style.display = "block";
       document.getElementById("horario").style.display = "none";
-      document.getElementById("registrar-btn").style.display = "none";
     });
 
     document.getElementById("mostrar-general").addEventListener("click", function() {
       document.getElementById("administrativo").style.display = "none";
       document.getElementById("general").style.display = "block";
-      document.getElementById("registrar-btn").style.display = "none";
     });
 
     document.getElementById("mostrar-horario").addEventListener("click", function() {
       document.getElementById("horario").style.display = "block";
       document.getElementById("administrativo").style.display = "none";
-      document.getElementById("registrar-btn").style.display = "block";
-      document.getElementById("cargar").textContent = "Actualizar (sin usuario)";
-    });
-
-    document.getElementById("volver-horario").addEventListener("click", function() {
-      document.getElementById("horario").style.display = "block";
-      document.getElementById("usuario").style.display = "none";
-      document.getElementById("registrar-btn").style.display = "block";
-      document.getElementById("cargar").textContent = "Actualizar (sin usuario)";
-    });
-
-    document.getElementById("mostrar-usuario").addEventListener("click", function() {
-      document.getElementById("usuario").style.display = "block";
-      document.getElementById("horario").style.display = "none";
-      document.getElementById("registrar-btn").style.display = "block";
-      document.getElementById("cargar").textContent = "Actualizar";
-      document.getElementById("Usuario").value = `${document.getElementById("email").value.split("@")[0] || ''}`;
     });
   </script>
 </body>
