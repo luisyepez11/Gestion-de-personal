@@ -4,11 +4,6 @@ Sigue los pasos a continuación para configurar y ejecutar el proyecto:
 
 ## Pasos para Iniciar
 
-1. **Clonar el Repositorio**
-    ```bash
-    git clone https://github.com/Manolo15v/erp-hospital
-    cd erp-hospital
-    ```
 
 2. **Instalar Dependencias**
     Ejecuta el siguiente comando para instalar las dependencias del proyecto:
